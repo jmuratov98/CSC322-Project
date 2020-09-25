@@ -1,6 +1,6 @@
 # Cuisino #
 
-![Cuisino](/cuisino/assests/logo.png?raw=true "Cuisino")
+![Cuisino](/cuisino/assets/logo.png?raw=true "Cuisino")
 
 Welcome to Cuisino
 
