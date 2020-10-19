@@ -1,2 +1,25 @@
-# CSC322-Project
-An online restaurant order and delivery system CSc322 final project
+# Cuisino #
+
+![Cuisino](/cuisino/assets/logo.png?raw=true "Cuisino")
+
+Welcome to Cuisino
+
+The name is subject to change
+
+## Getting Started ##
+
+1. The project is written in a virtual envirnoment so make sure you have pipenv installed. to do that run 
+```shell
+pip install pipenv
+```
+
+2. run the command 
+```shell
+pipenv install
+```
+ This commands will download everything from the lock file
+
+3. To run the server run 
+```shell
+python cuisino\manage.py runserver
+```
