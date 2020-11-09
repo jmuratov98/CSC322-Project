@@ -1,12 +1,14 @@
-{% extends "base.html" %}
+{% extends "users/base.html" %}
 
 {% load static %}
 
 {% block stylesheets %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/home/main.css' %}">
+    <title>Assiette de Poséidon ψ Home</title>
 {% endblock %}
 
-{% block content %}
+{% block body_block %}
+
 <!-- Navigation -->
 <nav class="navbar navbar-light bg-light static-top">
     <div class="container">
@@ -212,4 +214,4 @@
         </div>
     </div>
 </footer>
-{% endblock content %}
+{% endblock %}

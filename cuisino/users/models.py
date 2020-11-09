@@ -8,7 +8,7 @@ class Roles(models.Model):
     CHEF = 2
     DELIVERY_BOY = 3
     ADMIN = 4 # This is going to be the owner
-    
+
     ROLE_CHOICES = [
         ( CUSTOMER, 'Customer' ),
         ( CHEF, 'Chef' ),
@@ -24,4 +24,3 @@ class Roles(models.Model):
 class Users(AbstractUser):
     id = models.AutoField(primary_key=True)
     role = models.ManyToManyField(Roles)
-
