@@ -15,7 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+from django.conf.urls import url,include
+
+from users import views as users_views
+# from home import views as home_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path('register/', users_views.register),
+    # path('', home_views.landing_page),
+
+    url(r'^$',users_views.home,name='home'),
+    url(r'^users/',include('users.urls')),
+    url(r'^logout/$', users_views.user_logout, name='logout'),
+    url(r'^special/',users_views.special,name='special'),
 ]

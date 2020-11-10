@@ -1,0 +1,16 @@
+{% extends "users/base.html" %}
+{% block stylesheets %}{% endblock %}
+{% block body_block %}
+<title>Assiette de Poséidon ψ Index</title>
+<div class="container">
+  <div class="jumbotron">
+    <h1>Index Page</h1>
+    {% if user.is_authenticated %}
+        <h2>Welcome {{ user.username }}!</h2>
+    {% else %}
+        <h2>Welcome to the site!</h2>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}
