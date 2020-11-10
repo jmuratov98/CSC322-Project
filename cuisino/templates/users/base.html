@@ -16,6 +16,12 @@
                     <li class "nav-item"> <a class="nav-link" href="{%url 'users:index'%}">Index</a></li>
                     <li class "nav-item"> <a class="nav-link" href="{%url 'users:register'%}">Register</a></li>
 
+                    {% if user.is_authenticated %}
+                        <li class "nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                        <li class "nav-item"><a class="nav-link" href="{% url 'users:user_login' %}">Login</a></li>
+                    {% endif %}
+
                 </ul>
                 <ul class="navbar-nav justify-content-end">
                     <li class "nav-item"> <a class="nav-link" href="{%url 'admin:index'%}">Admin</a></li>

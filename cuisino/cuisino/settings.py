@@ -133,3 +133,5 @@ MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = "users.Users"
+
+LOGIN_URL = '/users/user_login/'
