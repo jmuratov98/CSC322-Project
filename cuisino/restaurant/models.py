@@ -45,3 +45,10 @@ class MenuItems(models.Model):
             output_size = (300, 300)
             img.thumbnail(output_size)
             img.save(self.itemImage.path)
+
+    def get_absolute_url(self):
+        """Returns the url to access a particular instance of MyModelName."""
+        return reverse('menu-item', args=[str(self.id)])
+
+    # def get_url_path(self):
+    #     return reverse("menu_list")

@@ -30,6 +30,7 @@ urlpatterns = [
 
     url(r'^$',users_views.home,name='home'),
     url(r'^users/',include('users.urls')),
+    url(r'^restaurant/',include('restaurant.urls')),
     url(r'^logout/$', users_views.user_logout, name='logout'),
     url(r'^special/',users_views.special,name='special'),
 ]
