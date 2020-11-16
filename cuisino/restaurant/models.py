@@ -36,6 +36,15 @@ class MenuItems(models.Model):
     def __str__(self):
         return f'{self.itemName}'
 
+    def __iter__(self):
+        yield 'category', self.category
+        yield 'itemName', self.itemName
+        yield 'itemDescription', self.itemDescription
+        yield 'itemPrice', self.itemPrice
+        yield 'itemReviews', self.itemReviews
+        yield 'itemImage', self.itemImage
+        
+
     def save(self, *args, **kwargs):
         super().save()
 

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from users.forms import UserForm
+from users.forms import UserForm, EmployeeApplyForm
 
 # Extra Imports for the Login and Logout Capabilities
 from django.contrib.auth import authenticate, login, logout
@@ -85,6 +85,24 @@ def register(request):
     return render(request,'users/register.html',
                           {'user_form':user_form,
                            'registered':registered})
+
+def apply(request):
+    registered = False
+
+    if request.method == 'POST':
+        form = EmployeeApplyForm(data=request.POST)
+        if form.is_valid():
+            employee = form.save()
+            employee.set_password(employee.password)
+            employee = form.save()
+            registered = True
+        else:
+            print(user_form.errors)
+
+    elif request.method == 'GET':
+        form = EmployeeApplyForm()
+    
+    return render(request, 'users/apply.html', { 'form': form, 'registered': registered })
 
 def user_login(request):
 
