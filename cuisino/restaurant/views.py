@@ -7,22 +7,15 @@ from django.views.generic import (TemplateView,ListView,
                                   DetailView,CreateView,
                                   UpdateView,DeleteView)
 
-# from django.contrib.auth.decorators import permission_required
-
 # Create your views here.
 def index(request):
     menu = MenuItems.objects.all()
     options = {
-        "menu": menu
+        "menu_list": menu
     }
     return render(request, 'restaurant/index.html', options)
 
-# @permission_required('MenuItems.add_item')
-# def your_fuc(request):
-#     or you can rise permission denied exception
-
-
-def register_menuitem(request):
+def register(request):
 
     registered_menuitem = False
 
@@ -79,19 +72,3 @@ def delete(request, id):
         item.delete()
         return redirect('home')
     return render(request, 'restaurant/delete.html')
-
-# """
-#     This function links to Menu
-# """
-# def menu(request):
-#     return render(request,'restaurant/menu.html')
-
-"""
-    This function links to Menu
-"""
-class menu(ListView):
-    model = MenuItems
-    context_object_name = 'menu_list'
-    def get_queryset(self):
-        return MenuItems.objects.order_by('itemID')
-
