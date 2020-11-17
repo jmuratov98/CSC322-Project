@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from restaurant.models import MenuItems
 from restaurant.forms import MenuForm
 from django.urls import reverse
@@ -52,9 +52,33 @@ def register_menuitem(request):
 
     # This is the render and context dictionary to feed
     # back to the registration.html file page.
-    return render(request,'restaurant/menuAddition.html',
+    return render(request,'restaurant/item.html',
                           {'menu_form':menu_form,
-                           'registered_menuitem':registered_menuitem})
+                           'registered_menuitem':registered_menuitem,
+                           'edit': False})
+
+def menuitem(request, id):
+    item = MenuItems.objects.get(itemID=id)
+
+    registered_menuitem = False
+
+    if request.method == 'POST':
+        form = MenuForm(data=request.POST)
+        if form.is_valid():
+            menuitem = form.save()
+            menuitem.save()
+            registered_menuitem = True
+    elif request.method == 'GET':
+        form = MenuForm(initial=item)
+
+    return render(request, 'restaurant/item.html', { 'menu_form': form, 'registered_menuitem': registered_menuitem, 'id': id, 'edit': True })
+
+def delete(request, id):
+    item = MenuItems.objects.get(itemID=id)
+    if request.method == 'POST':
+        item.delete()
+        return redirect('home')
+    return render(request, 'restaurant/delete.html')
 
 # """
 #     This function links to Menu
@@ -70,3 +94,4 @@ class menu(ListView):
     context_object_name = 'menu_list'
     def get_queryset(self):
         return MenuItems.objects.order_by('itemID')
+

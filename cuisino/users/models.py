@@ -32,7 +32,7 @@ class Employees(Users):
         verbose_name = 'employee'
         verbose_name_plural = 'employees'
 
-    salary = models.DecimalField(max_digits=5, decimal_places=2)
+    salary = models.DecimalField(max_digits=5, decimal_places=2, default=15.00)
     demoted = models.BooleanField(default=False)
 
 class Customers(Users):
