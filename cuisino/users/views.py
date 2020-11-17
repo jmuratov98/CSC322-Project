@@ -54,11 +54,10 @@ def register(request):
 
     if request.method == 'POST':
 
-        # Get info from "both" forms
         # It appears as one form to the user on the .html page
         user_form = UserForm(data=request.POST)
 
-        # Check to see both forms are valid
+        # Check to see forms are valid
         if user_form.is_valid():
 
             # Save User Form to Database

@@ -1,0 +1,10 @@
+{% extends "users/base.html" %}
+
+{% block body_block %}
+    {% for menu_item in menu %}
+        <img src="{{ menu_item.itemImage.url }}" alt="{{ menu_item.itemName }}" />
+        <h2>{{ menu_item.itemName }}</h2>
+        <p>{{ menu_item.itemDescription }}</p>
+        <span>${{ menu_item.itemPrice }}</span>
+    {% endfor %}
+{% endblock body_block %}

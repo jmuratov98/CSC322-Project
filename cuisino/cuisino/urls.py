@@ -24,11 +24,18 @@ from users import views as users_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('menu/', include('restaurant.urls')),
     # path('register/', users_views.register),
     # path('', home_views.landing_page),
 
     url(r'^$',users_views.home,name='home'),
     url(r'^users/',include('users.urls')),
+    url(r'^restaurant/',include('restaurant.urls')),
     url(r'^logout/$', users_views.user_logout, name='logout'),
     url(r'^special/',users_views.special,name='special'),
 ]
+
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

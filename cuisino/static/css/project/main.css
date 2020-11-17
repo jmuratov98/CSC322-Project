@@ -110,3 +110,13 @@ footer.footer {
   padding-top: 4rem;
   padding-bottom: 4rem;
 }
+
+.menu_header{
+    text-align:center;
+}
+
+
+/*hide role-specific div html*/
+div.user_surfer, div.user_member, div.chef, div.manager {
+display: none;
+}
