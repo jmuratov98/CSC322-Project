@@ -9,9 +9,13 @@
 <div class="centerstage" id="content">
     {% if menu_list %}
         <!-- add for loop here, for each item in menu-->
+        <div id="content">
         {% for menuitem in menu_list %}
-        <div id="content_item">
-            <div id="content_item_pic">
+            <div class="card" style="width: 18rem">
+                <img class="card-img-top" src="{{ menuitem.itemImage.url }}" alt="{{ menuitem.itemName }}">
+            </div>
+            
+            <!-- <div id="content_item_pic">
                     <img src={{menuitem.itemImage.url}} alt="">
             </div>
             <div id="content_item_info">
@@ -24,10 +28,9 @@
                 <div id="content_item_info">
                     <p id="content_item_info_p"> {{ menuitem.itemDescription }} </p>
                 </div>
-                <!-- Add another div for review if created -->
-            </div>
+            </div> -->
+            {% endfor %}
         </div>
-        {% endfor %}
     {% else %}
         <p>There are no menu items in the menu.</p>
     {% endif %}
