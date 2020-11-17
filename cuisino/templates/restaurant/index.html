@@ -1,5 +1,11 @@
 {% extends "users/base.html" %}
-{% block stylesheets %}{% endblock %}
+
+{% load static %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/restaurant/main.css' %}">
+{% endblock %}
+
 {% block body_block %}
 <title>Assiette de Poséidon ψ Menu</title>
 
@@ -9,26 +15,28 @@
 <div class="centerstage" id="content">
     {% if menu_list %}
         <!-- add for loop here, for each item in menu-->
-        <div id="content">
+        <div class="grid" id="menu-content">
         {% for menuitem in menu_list %}
-            <div class="card" style="width: 18rem">
-                <img class="card-img-top" src="{{ menuitem.itemImage.url }}" alt="{{ menuitem.itemName }}">
+            <div class="card mb-1" style="width: 30rem">
+                <div class="row no-gutters">
+                    <div class="col-md-8">
+                        <h5 class="card-title">
+                            <strong>{{ menuitem.itemName }}</strong>
+                            <small>${{ menuitem.itemPrice }}</small>
+                        </h5>
+                        <p class="card-text">{{ menuitem.itemDescription }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <img class="card-img" src="{{ menuitem.itemImage.url }}" alt="{{ menuitem.itemName }}">
+                    </div>
+                </div>
+                {% if user.role == user.CHEF or user.role == user.ADMIN %}
+                <div class="btn-group" role="group">
+                    <a href="{{menuitem.itemID}}" class="btn btn-success">Edit</a>
+                    <a href="{{menuitem.itemID}}/delete" class="btn btn-danger">Delete</a>
+                </div>
+                {% endif %}
             </div>
-            
-            <!-- <div id="content_item_pic">
-                    <img src={{menuitem.itemImage.url}} alt="">
-            </div>
-            <div id="content_item_info">
-                <div id="content_item_name">
-                    <h3 id="content_item_name_h3"> {{ menuitem.itemName }}</h3>
-                </div>
-                <div id="content_item_price">
-                    <p id="content_item_price_p"> {{ menuitem.itemPrice }} </p>
-                </div>
-                <div id="content_item_info">
-                    <p id="content_item_info_p"> {{ menuitem.itemDescription }} </p>
-                </div>
-            </div> -->
             {% endfor %}
         </div>
     {% else %}

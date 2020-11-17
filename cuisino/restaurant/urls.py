@@ -8,6 +8,6 @@ app_name = 'restaurant'
 urlpatterns=[
     path('', views.index, name="menu"),
     path('register/', views.register, name="register"),
-    path('item/<int:id>/', views.menuitem, name="menuitem"),
-    path('item/<int:id>/delete/', views.delete, name="delete"),
+    path('<int:id>/', views.menuitem, name="menuitem"),
+    path('<int:id>/delete/', views.delete, name="delete"),
 ]
