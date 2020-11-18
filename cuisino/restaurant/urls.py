@@ -6,9 +6,8 @@ app_name = 'restaurant'
 
 
 urlpatterns=[
-    path('', views.index),
+    path('', views.index, name="menu"),
+    path('register/', views.register, name="register"),
     path('<int:id>/', views.menuitem, name="menuitem"),
     path('<int:id>/delete/', views.delete, name="delete"),
-    path('menu/', views.menu.as_view(), name='menu'),
-    path('register_menuitem/', views.register_menuitem, name='register_menuitem'),
 ]

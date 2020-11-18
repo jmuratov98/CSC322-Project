@@ -19,23 +19,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import url,include
 
-from users import views as users_views
-# from home import views as home_views
+from home import views as home_views
 
 urlpatterns = [
+    path('', home_views.index, name='home'),
     path('admin/', admin.site.urls),
     path('menu/', include('restaurant.urls')),
-    # path('register/', users_views.register),
-    # path('', home_views.landing_page),
-
-    url(r'^$',users_views.home,name='home'),
-    url(r'^users/',include('users.urls')),
-    url(r'^restaurant/',include('restaurant.urls')),
-    url(r'^logout/$', users_views.user_logout, name='logout'),
-    url(r'^special/',users_views.special,name='special'),
+    path('users/',include('users.urls')),
 ]
-
-
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -14,23 +14,6 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     return render(request,'users/index.html')
 
-
-"""
-    This function links to homepage
-"""
-def home(request):
-    return render(request,'home/home.html')
-
-
-# """
-#     This function adds a user as a customer.
-# """
-#
-#
-# def register(request):
-#     return render(request, 'users/register.html')
-
-
 """
     This function adds a user as an employee. Can either be a chef or a delivery guy.
 """
@@ -38,14 +21,8 @@ def apply(request):
     return render(request, 'users/register.html')
 
 @login_required
-def special(request):
-    return HttpResponse("You are logged in. Nice!")
-
-@login_required
 def user_logout(request):
-    # Log out the user.
     logout(request)
-    # Return to homepage.
     return HttpResponseRedirect(reverse('home'))
 
 def register(request):

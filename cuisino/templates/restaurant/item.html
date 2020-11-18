@@ -14,7 +14,9 @@
         {% csrf_token %}
         {{menu_form.as_p}}
         <button type="submit" class="save btn btn-info">Save</button>
-        <a href="/menu/{{id}}/delete/" class="save btn btn-info">Delete</a>  
+        {% if edit == True %}
+            <a href="/menu/{{id}}/delete" class="save btn btn-info">Delete</a>  
+        {% endif %}
         </form>
 
         <script>var editor = new MediumEditor('.editable');</script>
