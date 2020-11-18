@@ -1,18 +1,21 @@
 {% extends "users/base.html" %}
+{% load static %}
 {% block stylesheets %}{% endblock %}
 {% block body_block %}
 <title>Assiette de Poséidon ψ Menu</title>
 
-<h1 id="menu_header">Discover Our Menu</h1>
-<p id="menu_header_sub">Freshly hand grabbed by the chef by order.</p>
 
-<div class="centerstage" id="content">
+<div class="jumbotron" id="content">
+    <p></p>
+    <h1 id="menu_header">Discover Our Menu</h1>
+    <p id="menu_header_sub">Freshly hand grabbed by the chef by order.</p>
+
     {% if menu_list %}
         <!-- add for loop here, for each item in menu-->
         {% for menuitem in menu_list %}
-        <div id="content_item">
+        <div class="content_item">
             <div id="content_item_pic">
-                    <img src={{menuitem.itemImage}} alt="">
+                    <img src={{menuitem.itemImage.url}} alt="">
             </div>
             <div id="content_item_info">
                 <div id="content_item_name">
