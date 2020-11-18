@@ -30,11 +30,13 @@
                         <img class="card-img" src="{{ menuitem.itemImage.url }}" alt="{{ menuitem.itemName }}">
                     </div>
                 </div>
-                {% if user.role == user.CHEF or user.role == user.ADMIN %}
-                <div class="btn-group" role="group">
-                    <a href="{{menuitem.itemID}}" class="btn btn-success">Edit</a>
-                    <a href="{{menuitem.itemID}}/delete" class="btn btn-danger">Delete</a>
-                </div>
+                {% if user.is_authenticated %}
+                    {% if user.role == user.CHEF or user.role == user.ADMIN %} 
+                        <div class="btn-group" role="group">
+                            <a href="{{menuitem.itemID}}" class="btn btn-success">Edit</a>
+                            <a href="{{menuitem.itemID}}/delete" class="btn btn-danger">Delete</a>
+                        </div>
+                    {% endif %}
                 {% endif %}
             </div>
             {% endfor %}
