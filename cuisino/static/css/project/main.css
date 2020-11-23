@@ -41,6 +41,8 @@ h6 {
 }
 .container{
     /* opacity: 1; */
+    /* content-top: 2%
+    background-color: rgba(255, 255, 255, 0.9); */
 }
 .bodycontainer{
 
@@ -62,6 +64,10 @@ h6 {
     width: 50%; */
     /* background-size: 120% 120%; */
 }
+.menudiv {
+    margin-top: 2%
+}
+
 .centertxt,
 #content {
     text-align: center;
