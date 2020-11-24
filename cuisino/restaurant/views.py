@@ -56,7 +56,7 @@ def menuitem(request, id):
     registered_menuitem = False
 
     if request.method == 'POST':
-        form = MenuForm(data=request.POST)
+        form = MenuForm(data=request.POST, instance=item)
         if form.is_valid():
             menuitem = form.save()
             menuitem.save()
