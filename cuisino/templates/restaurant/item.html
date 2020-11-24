@@ -10,7 +10,7 @@
         <h1>Register Menu Item Here</h1>
         <h3>Just fill out the form.</h3>
 
-        <form method="POST" class="menuitem-form">
+        <form method="POST" class="menuitem-form" enctype="multipart/form-data">
         {% csrf_token %}
         {{menu_form.as_p}}
         <button type="submit" class="save btn btn-info">Save</button>
