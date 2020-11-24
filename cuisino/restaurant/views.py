@@ -22,7 +22,7 @@ def register(request):
     if request.method == 'POST':
 
         # It appears as one form to the user on the .html page
-        menu_form = MenuForm(data=request.POST)
+        menu_form = MenuForm(data=request.POST, files=request.FILES)
 
         # Check to see form are valid
         if menu_form.is_valid():
@@ -56,7 +56,7 @@ def menuitem(request, id):
     registered_menuitem = False
 
     if request.method == 'POST':
-        form = MenuForm(data=request.POST, instance=item)
+        form = MenuForm(data=request.POST, files=request.FILES, instance=item)
         if form.is_valid():
             menuitem = form.save()
             menuitem.save()
