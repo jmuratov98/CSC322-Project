@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Evalutaion result</h2>
+<table border="1">
+<tr align="center">
+<th></th>
+<th>Responses</th>
+<th>Ration of responses</th>
+</tr>
+{% for row, ans in evaluationList %}
+<tr>
+    <td>{{ans}}</td>
+    <td>{{row.sum_num}}</td>
+    <td>{{row.rate}}%</td>
+</tr>
+{% endfor %}
+</table>
+
+<a href="/">Main page</a>
+<a href="/evaluation">Evaluation main page</a>
+
+
+</body>
+</html>
