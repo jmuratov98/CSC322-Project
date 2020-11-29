@@ -1,6 +1,11 @@
 from django.db import models
 from PIL import Image
+from uuid import uuid4
+from cuisino import settings
 
+"""
+    Menu Items
+"""
 # Create your models here.
 class MenuItems(models.Model):
     APPETIZERS = 0
@@ -58,3 +63,40 @@ class MenuItems(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a particular instance of MyModelName."""
         return reverse('menu-item', args=[str(self.id)])
+
+
+"""
+    Order
+"""
+
+class Order(models.Model):
+    RESERVATION = 0
+    PICK_UP = 1
+    DELIVERY = 2
+
+    ORDER_TYPES = [
+        ( RESERVATION, 'Reservation' ),
+        ( PICK_UP, 'Pick Up' ),
+        ( DELIVERY, 'Delivery' ),
+    ]
+
+    class Meta:
+        verbose_name = 'Order'
+        verbose_name_plural = 'Orders'
+
+    orderID = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    orderType = models.SmallIntegerField(choices=ORDER_TYPES)
+    orderDate = models.DateTimeField(auto_now_add=True)
+
+class OrderDetails(models.Model):
+    class Meta:
+        verbose_name = 'Order Detail'
+        verbose_name_plural = 'Order Details'
+
+    orderDetailID = models.AutoField(primary_key=True)
+    orderID = models.ForeignKey(Order, on_delete=models.CASCADE)
+    itemID = models.OneToOneField(MenuItems, null=True, on_delete=models.SET_NULL)
+    itemQuantity = models.IntegerField()
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+    
