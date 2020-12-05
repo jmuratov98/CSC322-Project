@@ -40,7 +40,7 @@ class Customers(Users):
         verbose_name = 'customer'
         verbose_name_plural = 'customers'
 
-    warnings = models.IntegerField()
+    warnings = models.IntegerField(default=0)
     VIP = models.BooleanField(default=False)
     demoted = models.BooleanField(default=False)
     deposit = models.DecimalField(decimal_places=2, max_digits=5, default=0.00)

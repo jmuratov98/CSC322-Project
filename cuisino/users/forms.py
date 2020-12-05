@@ -1,12 +1,12 @@
 from django import forms
 from django.contrib.auth.models import AbstractUser
-from users.models import Users, Employees
+from users.models import Customers, Employees
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
 
     class Meta():
-        model = Users
+        model = Customers
         fields = ('username','email','password')
 
 class EmployeeApplyForm(forms.ModelForm):
