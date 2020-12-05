@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Survey(complain/compliment) Result</h2>
+<table border="1">
+<tr align="center">
+<th></th>
+<th>Responses</th>
+<th>Rate</th>
+</tr>
+{% for row, ans in surveyList %}
+<tr>
+    <td>{{ans}}</td>
+    <td>{{row.sum_num}}</td>
+    <td>{{row.rate}}%</td>
+</tr>
+{% endfor %}
+</table>
+<br>
+<a href="/">Main homepage</a>
+<br>
+<a href="/survey">Survey page</a>
+<br>
+
+
+</body>
+</html>

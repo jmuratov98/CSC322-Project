@@ -34,6 +34,8 @@ class Employees(Users):
 
     salary = models.DecimalField(max_digits=5, decimal_places=2, default=15.00)
     demoted = models.BooleanField(default=False)
+    complain = models.SmallIntegerField(default=0)
+    compliment = models.SmallIntegerField(default=0)
 
 class Customers(Users):
     class Meta:
@@ -44,3 +46,5 @@ class Customers(Users):
     VIP = models.BooleanField(default=False)
     demoted = models.BooleanField(default=False)
     deposit = models.DecimalField(decimal_places=2, max_digits=5, default=0.00)
+    complain = models.SmallIntegerField(default=0)
+    compliment = models.SmallIntegerField(default=0)

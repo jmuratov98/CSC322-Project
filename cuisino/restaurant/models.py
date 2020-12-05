@@ -32,6 +32,7 @@ class MenuItems(models.Model):
     itemPrice = models.DecimalField(max_digits=10, decimal_places=2)
     itemReviews = models.TextField(null=True, blank=True)
     itemImage = models.ImageField(default='default.jpg', upload_to="menu_images")
+    reviewStar = models.PositiveSmallIntegerField()
 
     def __str__(self):
         return f'{self.itemName}'
