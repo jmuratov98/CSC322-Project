@@ -1,6 +1,12 @@
 from django.db import models
 from PIL import Image
+from uuid import uuid4
+from cuisino import settings
+from users.models import Customers
 
+"""
+    Menu Items
+"""
 # Create your models here.
 class MenuItems(models.Model):
     APPETIZERS = 0
@@ -58,3 +64,50 @@ class MenuItems(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a particular instance of MyModelName."""
         return reverse('menu-item', args=[str(self.id)])
+
+
+"""
+    Order
+"""
+
+class OrderDetails(models.Model):
+    class Meta:
+        verbose_name = 'Order Detail'
+        verbose_name_plural = 'Order Details'
+
+    orderDetailID = models.AutoField(primary_key=True)
+    itemID = models.OneToOneField(MenuItems, null=True, on_delete=models.SET_NULL)
+    itemQuantity = models.IntegerField()
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def get_final_price():
+        return itemQuantity * amount
+
+class Order(models.Model):
+    RESERVATION = 0
+    PICK_UP = 1
+    DELIVERY = 2
+
+    ORDER_TYPES = [
+        ( RESERVATION, 'Reservation' ),
+        ( PICK_UP, 'Pick Up' ),
+        ( DELIVERY, 'Delivery' ),
+    ]
+
+    class Meta:
+        verbose_name = 'Order'
+        verbose_name_plural = 'Orders'
+
+    orderID = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    customer = models.ForeignKey(Customers, on_delete=models.CASCADE, null=True)
+    items = models.ManyToManyField(OrderDetails)
+    ordered = models.BooleanField(default=False)
+    orderType = models.SmallIntegerField(choices=ORDER_TYPES)
+    orderDate = models.DateTimeField(auto_now_add=True)
+
+    def get_total(self):
+        total = 0
+        for item in self.items.all():
+            total += item.get_final_price()
+        return total
+    

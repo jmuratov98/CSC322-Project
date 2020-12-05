@@ -72,3 +72,14 @@ def delete(request, id):
         item.delete()
         return redirect('home')
     return render(request, 'restaurant/delete.html')
+
+
+""" Shopping Cart """
+def cart(request):
+    pass
+
+def add_to_cart(request, itemID, quantity):
+    pass
+
+def remove_from_cart(request, itemID):
+    pass
