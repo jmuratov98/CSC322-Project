@@ -7,7 +7,6 @@ from django.views.generic import (TemplateView,ListView,
                                   DetailView,CreateView,
                                   UpdateView,DeleteView)
 
-# Create your views here.
 def index(request):
     menu = MenuItems.objects.all()
     options = {
@@ -20,31 +19,17 @@ def register(request):
     registered_menuitem = False
 
     if request.method == 'POST':
-
-        # It appears as one form to the user on the .html page
         menu_form = MenuForm(data=request.POST, files=request.FILES)
-
-        # Check to see form are valid
         if menu_form.is_valid():
-
-            # Save menuitem Form to Database
             menuitem = menu_form.save()
-
             menuitem.save()
-
-            # Registration Successful!
             registered_menuitem = True
 
         else:
-            # One of the forms was invalid if this else gets called.
             print(menu_form.errors)
 
     else:
-        # Was not an HTTP post so we just render the forms as blank.
         menu_form = MenuForm()
-
-    # This is the render and context dictionary to feed
-    # back to the registration.html file page.
     return render(request,'restaurant/item.html',
                           {'menu_form':menu_form,
                            'registered_menuitem':registered_menuitem,
