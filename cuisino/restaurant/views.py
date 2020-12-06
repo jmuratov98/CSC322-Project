@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from restaurant.models import MenuItems
+from restaurant.models import MenuItems, Order
 from restaurant.forms import MenuForm
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 from django.views.generic import (TemplateView,ListView,
                                   DetailView,CreateView,
@@ -75,8 +76,15 @@ def delete(request, id):
 
 
 """ Shopping Cart """
+@login_required
 def cart(request):
-    pass
+    try: 
+        o = Order.objects.get(id=request.user.id, ordered=False)
+        order = o.items.all()
+        print(order)
+    except:
+        order = None
+    return render(request, 'restaurant/cart.html', { 'order': order })
 
 def add_to_cart(request, itemID, quantity):
     pass
