@@ -1,5 +1,5 @@
 from django.urls import path
-from survey import views
+from star import views
 
 urlpatterns = [
 

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'restaurant.apps.RestaurantConfig',
     # 'users',
     'survey',
+    'star',
 ]
 
 MIDDLEWARE = [

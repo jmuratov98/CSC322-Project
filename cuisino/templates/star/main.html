@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function one_star(){
+            document.form1.action="one_star";
+            document.form1.submit();
+            }
+
+        function two_star(){
+            document.form1.action="two_star";
+            document.form1.submit();
+            }
+
+
+       function three_star(){
+            document.form1.action="three_star";
+            document.form1.submit();
+            }
+
+
+        function four_star(){
+            document.form1.action="four_star";
+            document.form1.submit();
+            }
+
+
+        function five_star(){
+            document.form1.action="five_star";
+            document.form1.submit();
+            }
+        </script>
+
+</head>
+<body>
+<h2>Rate stars</h2>
+{% csrf_token %}
+    <input type="button" value="1" onclick="one_star()">
+    <input type="button" value="2" onclick="two_star()">
+    <input type="button" value="3" onclick="three_star()">
+    <input type="button" value="4" onclick="four_star()">
+    <input type="button" value="5" onclick="five_star()">
+    <br>
+</body>
+</html>
