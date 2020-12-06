@@ -85,3 +85,6 @@ def user_login(request):
 
     else:
         return render(request, 'users/login.html', {})
+
+def close_account(request):
+    pass

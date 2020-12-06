@@ -7,7 +7,7 @@ class UserForm(forms.ModelForm):
 
     class Meta():
         model = Customers
-        fields = ('username','email','password')
+        fields = ('username','email','password','deposit')
 
 class EmployeeApplyForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
