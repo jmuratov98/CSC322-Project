@@ -7,6 +7,13 @@
     <h1>Index Page</h1>
     {% if user.is_authenticated %}
         <h2>Welcome {{ user.username }}!</h2>
+
+        {# for customer's perspective  #}
+        {% if user.role == user.CUSTOMER %}
+
+            <h2>Balance: {{ user.deposit }}</h2>
+        {% endif %}
+
     {% else %}
         <h2>Welcome to the site!</h2>
     {% endif %}
