@@ -25,10 +25,10 @@ class Users(AbstractUser):
     demoted = models.BooleanField(default=False)
 
     # customer
-    warnings = models.IntegerField(blank=True)
-    VIP = models.BooleanField(blank=True)
-    deposit = models.DecimalField(decimal_places=2, max_digits=5, blank=True)
+    warnings = models.IntegerField(blank=True, default=0)
+    VIP = models.BooleanField(blank=True, default=False)
+    deposit = models.DecimalField(decimal_places=2, max_digits=5, blank=True, default=0.00)
     # employee
-    salary = models.DecimalField(max_digits=5, decimal_places=2, blank=True)
+    salary = models.DecimalField(max_digits=5, decimal_places=2, blank=True, default=0.00)
 
     USERNAME_FIELD = 'username'
