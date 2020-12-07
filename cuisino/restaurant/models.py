@@ -117,8 +117,9 @@ class OrderDetails(models.Model):
     itemQuantity = models.IntegerField()
     amount = models.DecimalField(max_digits=10, decimal_places=2)
 
-    def get_final_price():
-        return itemQuantity * amount
+    def get_final_price(self):
+        print(self.amount)
+        return self.itemQuantity * self.amount
 
 class Order(models.Model):
     RESERVATION = 0

@@ -57,15 +57,16 @@ def menuitem(request, id):
     registered_menuitem = False
 
     if request.method == 'POST':
-        form = MenuForm(data=request.POST, files=request.FILES, instance=item)
-        if form.is_valid():
-            menuitem = form.save()
-            menuitem.save()
-            registered_menuitem = True
+        if request.user == request.user.CHEF or request.user == request.user.ADMIN:
+            menu_form = MenuForm(data=request.POST, files=request.FILES, instance=item)
+            if menu_form.is_valid():
+                menuitem = menu_form.save()
+                menuitem.save()
+                registered_menuitem = True
     elif request.method == 'GET':
-        form = MenuForm(initial=item)
+        menu_form = MenuForm(initial=item)
 
-    return render(request, 'restaurant/item.html', { 'menu_form': form, 'registered_menuitem': registered_menuitem, 'id': id, 'edit': True })
+    return render(request, 'restaurant/item.html', { 'menu_form': menu_form, 'registered_menuitem': registered_menuitem, 'id': id, 'edit': True })
 
 def delete(request, id):
     item = MenuItems.objects.get(itemID=id)
@@ -79,9 +80,7 @@ def delete(request, id):
 @login_required
 def cart(request):
     try: 
-        o = Order.objects.get(id=request.user.id, ordered=False)
-        order = o.items.all()
-        print(order)
+        order = Order.objects.get(id=request.user.id, ordered=False)
     except:
         order = None
     return render(request, 'restaurant/cart.html', { 'order': order })
