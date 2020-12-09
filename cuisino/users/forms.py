@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.models import AbstractUser
 from users.models import Users
-from django.contrib.auth.forms import UserCreationForm
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())

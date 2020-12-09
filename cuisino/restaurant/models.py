@@ -66,6 +66,43 @@ class MenuItems(models.Model):
         """Returns the url to access a particular instance of MyModelName."""
         return reverse('menu-item', args=[str(self.id)])
 
+"""
+    Reservation
+"""
+
+class Table(models.Model):
+    class Meta:
+        verbose_name = 'Table'
+        verbose_name_plural = 'Tables'
+    
+    tableID = models.AutoField(primary_key=True)
+    seats = models.IntegerField(default=0)
+
+class Reservation(models.Model):
+    class Meta:
+        verbose_name = 'Reservation'
+        verbose_name_plural = 'Reservations'
+    
+    reservationID = models.AutoField(primary_key=True)
+    tableID = models.ForeignKey(Table, on_delete=models.CASCADE)
+    datetime = models.DateTimeField()
+    duration = models.DurationField()
+
+"""
+    Address
+"""
+
+class Address(models.Model):
+    class Meta:
+        verbose_name = 'Address'
+        verbose_name_plural = 'Addresses'
+
+    addressID = models.IntegerField()
+    address1 = models.CharField(max_length=200)
+    address2 = models.CharField(max_length=200)
+    city = models.CharField(max_length=200)
+    state = models.CharField(max_length=2)
+    zipCode = models.IntegerField()
 
 """
     Order
@@ -81,15 +118,18 @@ class OrderDetails(models.Model):
     itemQuantity = models.IntegerField()
     amount = models.DecimalField(max_digits=10, decimal_places=2)
 
-    def get_final_price():
-        return itemQuantity * amount
+    def get_final_price(self):
+        print(self.amount)
+        return self.itemQuantity * self.amount
 
 class Order(models.Model):
+    UNKNOWN = -1
     RESERVATION = 0
     PICK_UP = 1
     DELIVERY = 2
 
     ORDER_TYPES = [
+        ( UNKNOWN, 'Unknown' ),
         ( RESERVATION, 'Reservation' ),
         ( PICK_UP, 'Pick Up' ),
         ( DELIVERY, 'Delivery' ),
@@ -100,10 +140,12 @@ class Order(models.Model):
         verbose_name_plural = 'Orders'
 
     orderID = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    customer = models.ForeignKey(Users, on_delete=models.CASCADE, null=True)
+    id = models.ForeignKey(Users, on_delete=models.CASCADE, null=True)
+    reservationID = models.OneToOneField(Reservation, on_delete=models.CASCADE, null=True, blank=True)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE, null=True, blank=True)
     items = models.ManyToManyField(OrderDetails)
     ordered = models.BooleanField(default=False)
-    orderType = models.SmallIntegerField(choices=ORDER_TYPES)
+    orderType = models.SmallIntegerField(choices=ORDER_TYPES, default=UNKNOWN)
     orderDate = models.DateTimeField(auto_now_add=True)
 
     def get_total(self):
