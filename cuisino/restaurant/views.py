@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from restaurant.models import MenuItems, Order
+from restaurant.models import MenuItems, Order, OrderDetails
 from restaurant.forms import MenuForm
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -16,6 +16,7 @@ def index(request):
     }
     return render(request, 'restaurant/index.html', options)
 
+@login_required
 def register(request):
 
     registered_menuitem = False
@@ -51,23 +52,28 @@ def register(request):
                            'registered_menuitem':registered_menuitem,
                            'edit': False})
 
+@login_required
 def menuitem(request, id):
     item = MenuItems.objects.get(itemID=id)
+    try: 
+        orderedItem = Order.objects.get(id=request.user.id, ordered=False).items.get(itemID=id)
+    except:
+        orderedItem = None
 
     registered_menuitem = False
 
     if request.method == 'POST':
-        if request.user == request.user.CHEF or request.user == request.user.ADMIN:
-            menu_form = MenuForm(data=request.POST, files=request.FILES, instance=item)
-            if menu_form.is_valid():
-                menuitem = menu_form.save()
-                menuitem.save()
-                registered_menuitem = True
+        menu_form = MenuForm(data=request.POST, files=request.FILES, instance=item)
+        if menu_form.is_valid():
+            menuitem = menu_form.save()
+            menuitem.save()
+            registered_menuitem = True
     elif request.method == 'GET':
         menu_form = MenuForm(initial=item)
 
-    return render(request, 'restaurant/item.html', { 'menu_form': menu_form, 'registered_menuitem': registered_menuitem, 'id': id, 'edit': True })
+    return render(request, 'restaurant/item.html', { 'menu_form': menu_form, 'registered_menuitem': registered_menuitem, 'id': id, 'edit': True, 'orderedItem': orderedItem })
 
+@login_required
 def delete(request, id):
     item = MenuItems.objects.get(itemID=id)
     if request.method == 'POST':
@@ -85,8 +91,18 @@ def cart(request):
         order = None
     return render(request, 'restaurant/cart.html', { 'order': order })
 
+@login_required
 def add_to_cart(request, itemID, quantity):
-    pass
+    order = Order.objects.get_or_create(id=request.user.id, ordered=False)[0]
+    menuitem = MenuItems.objects.get(itemID=itemID)
+    if order.items.filter(itemID=itemID).exists():
+        order.items.filter(itemID=itemID).update(itemQuantity=quantity)
+    else:
+        item = OrderDetails.objects.create(itemID=itemID, itemQuantity=quantity, amount=menuitem.itemPrice)
+        order.items.add(item)
+    return redirect('/menu/cart')
 
+@login_required
 def remove_from_cart(request, itemID):
-    pass
+    OrderDetails.objects.filter(itemID=itemID).delete()
+    return redirect('/menu/cart')
