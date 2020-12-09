@@ -78,12 +78,12 @@ def cart(request):
 
 @login_required
 def add_to_cart(request, itemID, quantity):
-    order = Order.objects.get_or_create(id=request.user.id, ordered=False)[0]
+    order = Order.objects.get_or_create(id=request.user, ordered=False)[0]
     menuitem = MenuItems.objects.get(itemID=itemID)
     if order.items.filter(itemID=itemID).exists():
         order.items.filter(itemID=itemID).update(itemQuantity=quantity)
     else:
-        item = OrderDetails.objects.create(itemID=itemID, itemQuantity=quantity, amount=menuitem.itemPrice)
+        item = OrderDetails.objects.create(itemID=menuitem, itemQuantity=quantity, amount=menuitem.itemPrice)
         order.items.add(item)
     return redirect('/menu/cart')
 

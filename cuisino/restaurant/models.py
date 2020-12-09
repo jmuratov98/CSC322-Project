@@ -123,11 +123,13 @@ class OrderDetails(models.Model):
         return self.itemQuantity * self.amount
 
 class Order(models.Model):
+    UNKNOWN = -1
     RESERVATION = 0
     PICK_UP = 1
     DELIVERY = 2
 
     ORDER_TYPES = [
+        ( UNKNOWN, 'Unknown' ),
         ( RESERVATION, 'Reservation' ),
         ( PICK_UP, 'Pick Up' ),
         ( DELIVERY, 'Delivery' ),
@@ -143,7 +145,7 @@ class Order(models.Model):
     address = models.ForeignKey(Address, on_delete=models.CASCADE, null=True, blank=True)
     items = models.ManyToManyField(OrderDetails)
     ordered = models.BooleanField(default=False)
-    orderType = models.SmallIntegerField(choices=ORDER_TYPES)
+    orderType = models.SmallIntegerField(choices=ORDER_TYPES, default=UNKNOWN)
     orderDate = models.DateTimeField(auto_now_add=True)
 
     def get_total(self):

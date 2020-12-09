@@ -74,4 +74,15 @@
 </div>
 {% endif %}
 </div>
+
+<script>
+    const BUTTON = document.querySelector(".add-to-cart-button");
+    const INPUT = document.querySelector("#quantity");
+    
+    BUTTON.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = `/menu/cart/add/{{id}}/${INPUT.value}`;
+    });
+</script>
+
 {% endblock %}
