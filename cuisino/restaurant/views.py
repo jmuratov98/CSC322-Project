@@ -56,7 +56,7 @@ def menuitem(request, id):
     elif request.method == 'GET':
         form = MenuForm(initial=item)
 
-    return render(request, 'restaurant/item.html', { 'menu_form': form, 'registered_menuitem': registered_menuitem, 'id': id, 'edit': True })
+    return render(request, 'restaurant/item.html', { 'form': form, 'registered_menuitem': registered_menuitem, 'id': id, 'edit': True })
 
 def delete(request, id):
     item = MenuItems.objects.get(itemID=id)
