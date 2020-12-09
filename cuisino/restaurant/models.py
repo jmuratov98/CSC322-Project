@@ -2,7 +2,7 @@ from django.db import models
 from PIL import Image
 from uuid import uuid4
 from cuisino import settings
-from users.models import Customers
+from users.models import Users
 
 """
     Menu Items
@@ -137,7 +137,7 @@ class Order(models.Model):
         verbose_name_plural = 'Orders'
 
     orderID = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    id = models.ForeignKey(Customers, on_delete=models.CASCADE, null=True)
+    id = models.ForeignKey(Users, on_delete=models.CASCADE, null=True)
     reservationID = models.OneToOneField(Reservation, on_delete=models.CASCADE, null=True, blank=True)
     address = models.ForeignKey(Address, on_delete=models.CASCADE, null=True, blank=True)
     items = models.ManyToManyField(OrderDetails)
