@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cuisino',
     'users.apps.UsersConfig',
-    'restaurant.apps.RestaurantConfig'
+    'restaurant.apps.RestaurantConfig',
+    'blog',
     # 'users',
 ]
 

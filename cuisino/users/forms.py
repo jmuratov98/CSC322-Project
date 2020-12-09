@@ -17,3 +17,4 @@ class EmployeeApplyForm(forms.ModelForm):
     class Meta():
         model = Employees
         fields = ('username', 'email', 'password', 'role')
+ 

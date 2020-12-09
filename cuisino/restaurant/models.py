@@ -41,6 +41,7 @@ class MenuItems(models.Model):
 
     def __str__(self):
         return f'{self.itemName}'
+        return self.title #for blog
 
     def __iter__(self):
         yield 'category', self.category
@@ -61,10 +62,24 @@ class MenuItems(models.Model):
             img.thumbnail(output_size)
             img.save(self.itemImage.path)
 
+        """
+        Set publish date to the date when post's published status is switched to True, 
+        reset the date if post is unpublished
+        """
+        
+        if self.published and self.pub_date is None:    
+            self.pub_date = datetime.now()
+        elif not self.published and self.pub_date is not None:
+            self.pub_date = None
+        super().save(*args, **kwargs)
+
+
+        
     def get_absolute_url(self):
         """Returns the url to access a particular instance of MyModelName."""
         return reverse('menu-item', args=[str(self.id)])
-
+        return reverse('blog:detail', kwargs={'slug': self.slug}) #for blog
+        
 
 """
     Order
