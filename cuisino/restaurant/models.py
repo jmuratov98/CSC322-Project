@@ -2,7 +2,7 @@ from django.db import models
 from PIL import Image
 from uuid import uuid4
 from cuisino import settings
-from users.models import Customers
+from users.models import Users
 
 """
     Menu Items
@@ -38,6 +38,7 @@ class MenuItems(models.Model):
     itemPrice = models.DecimalField(max_digits=10, decimal_places=2)
     itemReviews = models.TextField(null=True, blank=True)
     itemImage = models.ImageField(default='default.jpg', upload_to="menu_images")
+    itemKeyword = models.TextField(max_length=200,null=True, blank=True)
 
     def __str__(self):
         return f'{self.itemName}'
@@ -49,7 +50,7 @@ class MenuItems(models.Model):
         yield 'itemPrice', self.itemPrice
         yield 'itemReviews', self.itemReviews
         yield 'itemImage', self.itemImage
-        
+
 
     def save(self, *args, **kwargs):
         super().save()
@@ -99,7 +100,7 @@ class Order(models.Model):
         verbose_name_plural = 'Orders'
 
     orderID = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    customer = models.ForeignKey(Customers, on_delete=models.CASCADE, null=True)
+    customer = models.ForeignKey(Users, on_delete=models.CASCADE, null=True)
     items = models.ManyToManyField(OrderDetails)
     ordered = models.BooleanField(default=False)
     orderType = models.SmallIntegerField(choices=ORDER_TYPES)
@@ -110,4 +111,3 @@ class Order(models.Model):
         for item in self.items.all():
             total += item.get_final_price()
         return total
-    

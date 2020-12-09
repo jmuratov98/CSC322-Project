@@ -1,5 +1,6 @@
 {% extends 'users/base.html' %}
 {% load static %}
+{% load bootstrap3 %}
 
 {% block stylesheets %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/users/main.css' %}">
@@ -8,14 +9,18 @@
 {% block body_block %}
 <title>Assiette de Poséidon ψ Career Registeration Page</title>
 
-<div class="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-4 mx-auto" style="width: 60%; margin-left: auto; margin-right: auto;">
+<div class="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-4 mx-auto" style="width: 80%; margin-left: auto; margin-right: auto; ">
     <div class="card card0 border-0"  style="background-color: rgba(255, 255, 255, 0.9); ">
         <div class="row d-flex">
                     <div class="row" style="display: flex; ">
                         <img src="{% static 'img/logo.png' %}" class="logo">
                     </div>
             <div class="col-xl-9" style="padding-left: auto; padding-right: 0%">
+
                 <div class="card2 card border-0 px-4 py-4">
+                    {% if registered %}
+                      <h1>You have been Registered!</h1>
+                    {% else %}
                     <div class="row mb-4 px-3">
                         <h2 class="mb-0 mr-4 mt-1">Career Registration</h2>
                     </div>
@@ -28,22 +33,10 @@
                     </div>
                     <form method="POST">
                         {% csrf_token %}
-                        <div class="row px-3">
-                            <label class="mb-1">
-                                <h6 class="mb-0 text-sm">Username</h6>
-                            </label>
-                            <input class="mb-4" type="text" name="username" placeholder="Enter username">
-                        </div>
-                        <div class="row px-3"> <label class="mb-1">
-                                <h6 class="mb-0 text-sm">Password</h6>
-                            </label> <input type="password" name="password" placeholder="Enter password"> </div>
-                        <br>
-                        <div class="row px-3"> <label class="mb-2">
-                                <h6 class="mb-0 text-sm">Email Address</h6>
-                            </label> <input type="email" name="email" placeholder="Enter email address"> </div>
-                        <br>
+                        {% bootstrap_form form %}
                         <div class="row mb-3 px-3"> <button type="submit" class="btn btn-blue text-center">Register</button> </div>
                     </form>
+                    {% endif %}
                 </div>
             </div>
         </div>

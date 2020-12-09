@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from users.forms import UserForm, EmployeeApplyForm
 
 from django.contrib.auth import authenticate, login, logout
@@ -29,22 +29,22 @@ def register(request):
 
     if request.method == 'POST':
 
-        user_form = UserForm(data=request.POST)
-        if user_form.is_valid():
-            user = user_form.save()
+        form = UserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
             user.set_password(user.password)
+            #user.profile.birth_date = form.cleaned_data.get('birth_date')
             user.save()
             registered = True
 
         else:
-            print(user_form.errors)
+            print(form.errors)
 
     else:
-        user_form = UserForm()
+        form = UserForm()
 
     return render(request,'users/register.html',
-                          {'user_form':user_form,
-                           'registered':registered})
+                           { 'form': form, 'registered': registered })
 
 def apply(request):
     registered = False
@@ -75,7 +75,7 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request,user)
-                return HttpResponseRedirect(reverse('home'))
+                return redirect('../')
             else:
                 return HttpResponse("Your account is not active.")
         else:

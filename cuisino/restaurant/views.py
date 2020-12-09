@@ -14,14 +14,21 @@ def index(request):
     }
     return render(request, 'restaurant/index.html', options)
 
+# def menutest(request):
+#     menu = MenuItems.objects.all()
+#     options = {
+#         "menu_list": menu
+#     }
+#     return render(request, 'restaurant/menutest.html', options)
+
 def register(request):
 
     registered_menuitem = False
 
     if request.method == 'POST':
-        menu_form = MenuForm(data=request.POST, files=request.FILES)
-        if menu_form.is_valid():
-            menuitem = menu_form.save()
+        form = MenuForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            menuitem = form.save()
             menuitem.save()
             registered_menuitem = True
 
@@ -29,9 +36,9 @@ def register(request):
             print(menu_form.errors)
 
     else:
-        menu_form = MenuForm()
+        form = MenuForm()
     return render(request,'restaurant/item.html',
-                          {'menu_form':menu_form,
+                          {'form':form,
                            'registered_menuitem':registered_menuitem,
                            'edit': False})
 
@@ -49,7 +56,7 @@ def menuitem(request, id):
     elif request.method == 'GET':
         form = MenuForm(initial=item)
 
-    return render(request, 'restaurant/item.html', { 'menu_form': form, 'registered_menuitem': registered_menuitem, 'id': id, 'edit': True })
+    return render(request, 'restaurant/item.html', { 'form': form, 'registered_menuitem': registered_menuitem, 'id': id, 'edit': True })
 
 def delete(request, id):
     item = MenuItems.objects.get(itemID=id)
