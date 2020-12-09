@@ -4,10 +4,11 @@ from users.models import Users
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
+    deposit = forms.DecimalField()
 
     class Meta():
         model = Users
-        fields = ('username','email','password')
+        fields = ('username','email','password','deposit')
 
 class EmployeeApplyForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())

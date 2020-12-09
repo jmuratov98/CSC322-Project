@@ -38,6 +38,7 @@ class MenuItems(models.Model):
     itemPrice = models.DecimalField(max_digits=10, decimal_places=2)
     itemReviews = models.TextField(null=True, blank=True)
     itemImage = models.ImageField(default='default.jpg', upload_to="menu_images")
+    itemKeyword = models.TextField(max_length=200,null=True, blank=True)
 
     def __str__(self):
         return f'{self.itemName}'
@@ -49,7 +50,7 @@ class MenuItems(models.Model):
         yield 'itemPrice', self.itemPrice
         yield 'itemReviews', self.itemReviews
         yield 'itemImage', self.itemImage
-        
+
 
     def save(self, *args, **kwargs):
         super().save()
@@ -150,4 +151,3 @@ class Order(models.Model):
         for item in self.items.all():
             total += item.get_final_price()
         return total
-    
