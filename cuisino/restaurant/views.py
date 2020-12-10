@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from restaurant.models import MenuItems, Order, OrderDetails
-from restaurant.forms import MenuForm
+from restaurant.forms import MenuForm, OrderForm, ReservationForm, AddressForm
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -105,3 +105,50 @@ def SearchResultsView(request):
 
     else:
         return render(request, 'restaurant/search_results.html')
+
+@login_required
+def complete_order(request):
+    order = Order(id=request.user, ordered=False)
+    purchased = False
+    order_form_submitted = False
+
+    if request.method == 'POST':
+        if not order_form_submitted:
+            print(request.POST)
+            form = OrderForm(request.POST, instance=order)
+            if form.is_valid():
+                order = form.save()
+                order.save()
+                order_form_submitted = True
+            order.refresh_from_db()
+        else:
+            if order.orderType == order.RESERVATION:
+                form = ReservationForm(request.POST)
+                if form.is_valid():
+                    reservation = form.save()
+                    reservation.save()
+                    order.reservationID = reservation
+                    order.save()
+            elif order.orderType == order.DELIVERY:
+                form = AddressForm(request.POST)
+                if form.is_valid():
+                    address = form.save()
+                    address.save()
+                    order.address = address
+                    order.save()
+            order.ordered = True
+            order.save()
+    else:
+        if not order_form_submitted:
+            form = OrderForm()
+        else:
+            if order.orderType == order.PICK_UP or order.orderType == order.UNKNOWN:
+                return redirect('/menu/invoice')
+            form = ReservationForm() if order.orderType == order.RESERVATION else AddressForm()
+
+    options = {
+        'form': form,
+        "purchased": purchased
+
+    }
+    return render(request, 'restaurant/complete-order.html', options)

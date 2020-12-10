@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import AbstractUser
-from restaurant.models import MenuItems
+from restaurant.models import MenuItems, Order, Address, Reservation
+from users.models import Users
 
 class MenuForm(forms.ModelForm):
     category = forms.ChoiceField(choices=MenuItems.MENU_CATEGORY_CHOICES, required=True, label='Category')
@@ -12,3 +13,26 @@ class MenuForm(forms.ModelForm):
     class Meta():
         model = MenuItems
         fields = ('category','itemName','itemDescription','itemPrice','itemImage')
+
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = ('address1', 'address2', 'city', 'state', 'zipCode')        
+
+class ReservationForm(forms.ModelForm):
+    class Meta:
+        model = Reservation
+        fields = ('tableID', 'datetime', 'duration')
+
+class OrderForm(forms.ModelForm):
+    chef = forms.ChoiceField(label="Chefs", choices=())
+
+    def __init__(self, *args, **kwargs):
+        super(OrderForm, self).__init__(*args, **kwargs)
+        choices = [(user, user.username) for user in Users.objects.filter(role=Users.CHEF)]
+        print(choices)
+        self.fields['chef'].choices = choices
+    
+    class Meta:
+        model = Order
+        fields = ('orderType', 'chef')

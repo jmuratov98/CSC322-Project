@@ -140,7 +140,8 @@ class Order(models.Model):
         verbose_name_plural = 'Orders'
 
     orderID = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    id = models.ForeignKey(Users, on_delete=models.CASCADE, null=True)
+    id = models.ForeignKey(Users, on_delete=models.CASCADE, null=True, related_name='customer')
+    chef = models.ForeignKey(Users, on_delete=models.CASCADE, null=True, related_name='chef')
     reservationID = models.OneToOneField(Reservation, on_delete=models.CASCADE, null=True, blank=True)
     address = models.ForeignKey(Address, on_delete=models.CASCADE, null=True, blank=True)
     items = models.ManyToManyField(OrderDetails)
@@ -153,3 +154,8 @@ class Order(models.Model):
         for item in self.items.all():
             total += item.get_final_price()
         return total
+
+    def save(self, *args, **kwargs):
+        super().save()
+        print(args)
+        # Users.objects.get(id=args.chef)
