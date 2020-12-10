@@ -23,3 +23,10 @@ pipenv install
 ```shell
 python cuisino\manage.py runserver
 ```
+
+4. Extra pip installs required
+```
+pip install django-bootstrap3
+pip install pillow
+pip install django
+```
