@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from users.forms import UserForm, EmployeeApplyForm
-
+from better_profanity import profanity
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from users.models import Users
+
 
 """
     This function links to homepage
@@ -85,3 +87,25 @@ def user_login(request):
 
     else:
         return render(request, 'users/login.html', {})
+
+
+def taboo_censor(request)
+    if __name__ == "__main__":
+        profanity.load_censor_words()
+
+        text = #Once Blog Implemented, string of text that gets submitted will be scanned here
+
+        text = profanity.censor(text)       
+
+
+
+
+def taboo_checker(request)
+    item = Users.objects.get(warnings)
+    if __name__ == "__main__":
+        text = #Once Blog Implemented, string of text that gets submitted will be scanned here
+
+        if profanity.contains_profanity(text)= True
+            Users.warnings += 1
+    
+            
