@@ -1,4 +1,5 @@
-{% extends 'users/base.html' %}
+{% extends 'base/formbase.html' %}
+
 {% load static %}
 {% load bootstrap3 %}
 
@@ -78,7 +79,7 @@
 <script>
     const BUTTON = document.querySelector(".add-to-cart-button");
     const INPUT = document.querySelector("#quantity");
-    
+
     BUTTON.addEventListener("click", (e) => {
         e.preventDefault();
         window.location.href = `/menu/cart/add/{{id}}/${INPUT.value}`;
