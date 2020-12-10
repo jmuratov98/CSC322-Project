@@ -3,33 +3,35 @@
 {% load static %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/restaurant/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'js/project/project.js' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/restaurant/main.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'js/project/project.js' %}">
 {% endblock %}
 
 {% block body_block %}
 <title>Assiette de Poséidon ψ Menu</title>
 
-<div class="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-4 mx-auto" style="width: 80%; margin-left: auto; margin-right: auto;">
-    <div class="card card0 border-0"  style="background-color: rgba(255, 255, 255, 0.6); ">
-<div class="container" id="content">
-    <div class="menudiv">
+<div class="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-4 mx-auto"
+    style="width: 80%; margin-left: auto; margin-right: auto;">
+    <div class="card card0 border-0" style="background-color: rgba(255, 255, 255, 0.6); ">
+        <div class="container" id="content">
+            <div class="menudiv">
 
 
-        <h1 id="menu_header">Discover Our Menu</h1>
-        <p id="menu_header_sub">Freshly hand grabbed by the chef by order.</p>
-        <br>
+                <h1 id="menu_header">Discover Our Menu</h1>
+                <p id="menu_header_sub">Freshly hand grabbed by the chef by order.</p>
+                <br>
 
-        {% if menu_list %}
-            <!-- add for loop here, for each item in menu-->
-            <div class="grid" id="menu-content" style=" margin-bottom: 10px;">
+                {% if menu_list %}
+                <!-- add for loop here, for each item in menu-->
+                <div class="grid" id="menu-content" style=" margin-bottom: 10px;">
 
-            {% for menuitem in menu_list %}
-                <div class="card mb-1" style="width: auto; ">
+                    {% for menuitem in menu_list %}
+                    <div class="card mb-1" style="width: auto">
 
                         <div class="col-md-8">
-                            <h5 class="card-title text-dark" style="padding-top:20px;" >
-                                <strong>{{ menuitem.itemName }}</strong><hr>
+                            <h5 class="card-title text-dark" style="padding-top:20px;">
+                                <strong>{{ menuitem.itemName }}</strong>
+                                <hr>
                                 <small>${{ menuitem.itemPrice }}</small>
                             </h5>
                             <p class="card-text">{{ menuitem.itemDescription }}</p>
@@ -37,66 +39,62 @@
                         <div class="col-md-4">
                             <img class="card-img" src="{{ menuitem.itemImage.url }}" alt="{{ menuitem.itemName }}">
                         </div>
-                        <button onclick="menuitem.itemID">Add to cart</button>
+                        <button onclick="document.getElementById('id01').style.display = 'block'" >Add to cart</button>
 
-                    {% if user.is_authenticated %}
+                        {% if user.is_authenticated %}
                         {% if user.role == user.CHEF or user.role == user.ADMIN %}
-                            <div class="btn-group" role="group">
-                                <a href="{{menuitem.itemID}}" class="btn btn-success">Edit</a>
-                                <a href="{{menuitem.itemID}}/delete" class="btn btn-danger">Delete</a>
-                            </div>
+                        <div class="btn-group" role="group">
+                            <a href="{{menuitem.itemID}}" class="btn btn-success">Edit</a>
+                            <a href="{{menuitem.itemID}}/delete" class="btn btn-danger">Delete</a>
+                        </div>
                         {% endif %}
-                    {% endif %}
+                        {% endif %}
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+                {% else %}
+                <p>There are no menu items in the menu.</p>
+                {% endif %}
+
+
+
+                <div id="id01" class="modal">
+                    <span onclick="document.getElementById('id01').style.display='none'" class="close"
+                        title="Close Modal">&times;</span>
+                    <form class="modal-content">
+                        <div class="containerM">
+                            <h3>How many would you like to add?</h3>
+                            <input type="number" id="quantity" value="0">
+                            <button class="add-to-cart-button">Add to Cart</button>
+                        </div>
+                    </form>
+                </div>
+
             </div>
-        {% else %}
-            <p>There are no menu items in the menu.</p>
-        {% endif %}
-
-
-
-<div id="id01" class="modal">
-  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-  <form class="modal-content" >
-    <div class="containerM">
-        <h3>How many would you like to add?</h3>
-        {% if orderedItem == None %}
-        <input type="number" id="quantity" value="0">
-        {% else %}
-        <input type="number" id="quantity" value="{{ orderedItem.itemQuantity }}">
-        {% endif %}
-        <button class="add-to-cart-button" >Add to Cart</button>
-
+        </div>
     </div>
-  </form>
 </div>
-
-
 <script>
-// Get the modal
-var modal = document.getElementById('id01');
+    // Get the modal
+    var modal = document.getElementById('id01');
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 </script>
 
 <script>
-function addingToCart(event){
-    event.preventDefault()
-    const INPUT = document.getElementById('quantity')
-    window.location.href = `/menu/cart/add/${INPUT.}/${INPUT.value}`;
-}
+    function addingToCart(event) {
+        event.preventDefault()
+        console.log(event.target);
+        const INPUT = document.getElementById('quantity')
+        window.location.href = `/menu/cart/add/{{ menuitem.itemID }}/${INPUT.value}`;
+    }
 </script>
 
-</div>
-</div>
-</div>
-</div>
 {% endblock %}
 
 {% block search_block %} {% endblock %}

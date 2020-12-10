@@ -12,6 +12,7 @@ from django.views.generic import (TemplateView,ListView,
 
 def index(request):
     menu = MenuItems.objects.all()
+
     options = {
         "menu_list": menu
     }
@@ -42,10 +43,6 @@ def register(request):
 @login_required
 def menuitem(request, id):
     item = MenuItems.objects.get(itemID=id)
-    try:
-        orderedItem = Order.objects.get(id=request.user.id, ordered=False).items.get(itemID=id)
-    except:
-        orderedItem = None
 
     registered_menuitem = False
 
@@ -58,7 +55,7 @@ def menuitem(request, id):
     elif request.method == 'GET':
         menu_form = MenuForm(initial=item)
 
-    return render(request, 'restaurant/item.html', { 'form': menu_form, 'registered_menuitem': registered_menuitem, 'id': id, 'edit': True, 'orderedItem': orderedItem })
+    return render(request, 'restaurant/item.html', { 'form': menu_form, 'registered_menuitem': registered_menuitem, 'id': id, 'edit': True })
 
 @login_required
 def delete(request, id):
@@ -80,6 +77,7 @@ def cart(request):
 
 @login_required
 def add_to_cart(request, itemID, quantity):
+    print('hello')
     order = Order.objects.get_or_create(id=request.user, ordered=False)[0]
     menuitem = MenuItems.objects.get(itemID=itemID)
     if order.items.filter(itemID=itemID).exists():
