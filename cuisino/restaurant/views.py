@@ -114,7 +114,7 @@ def complete_order(request):
 
     if request.method == 'POST':
         if not order_form_submitted:
-            print(request.POST)
+            print(request.POST )
             form = OrderForm(request.POST, instance=order)
             if form.is_valid():
                 order = form.save()
