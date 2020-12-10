@@ -29,6 +29,8 @@ urlpatterns = [
     path('users/',include('users.urls')),
 
     path('blog/', Blog_views.list_of_post),
+    #path('blog/<slug:slug>/', Blog_views.post_detail, name="post_detail"),
+    
 ]
 
 if settings.DEBUG:

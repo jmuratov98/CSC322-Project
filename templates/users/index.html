@@ -1,0 +1,74 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/users/main.css' %}">
+{% endblock %}
+
+{% block body_block %}
+<title>Assiette de Poséidon ψ Account</title>
+
+<div class="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-4 mx-auto" style="width: 80%; margin-left: auto; margin-right: auto;">
+    <div class="card card0 border-0"  style="background-color: rgba(255, 255, 255, 0.9); ">
+        <div class="row d-flex">
+                    <div class="row" style="display: flex; ">
+                        <img src="{% static 'img/logo.png' %}" class="logo">
+                    </div>
+            <div class="col-xl-9" style="padding-left: auto; padding-right: 0%; ">
+                <div class="card2 card border-0 px-4 py-4">
+                    <div class="row mb-4 px-3">
+                        <h2 class="mb-0 mr-4 mt-1">Account Information</h2>
+                    </div>
+                    <div class="row mb-4 px-3">
+                        {% if user.is_authenticated %}
+                            <h4>Welcome {{ user.username }}!</h4>
+                            <p> <br> </p>
+
+                        {% else %}
+                            <h2>Welcome to the site!</h2>
+                        {% endif %}
+                    </div>
+                    <div class="row px-3 mb-4">
+                        <div class="line"></div>
+                        <div class="line"></div>
+                    </div>
+                    {# for customer's perspective  #}
+                    {% if user.role == user.CUSTOMER %}
+
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6>Balance: {{ user.deposit }}</h6>
+                            <br>
+                            <h6>Warnings: {{ user.warnings }}</h6>
+                            <br>
+                            <h6>Membership status:
+                            {% if user.VIP == True %}
+                                VIP
+                            {% else %}
+                                Registered
+                            {% endif %}
+                            Membership
+                            </h6>
+
+                        </label>
+                    </div>
+                    {# gotta add for order in order_list here #}
+
+                    {% else %}
+
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h5>How are you?</h5>
+                            <br>
+                            <h6>Salary: {{ user.salary }}</h6>
+
+                        </label>
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
