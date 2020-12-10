@@ -3,6 +3,8 @@ from restaurant.models import MenuItems, Order, OrderDetails
 from restaurant.forms import MenuForm
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from django.http import HttpResponse
 
 from django.views.generic import (TemplateView,ListView,
                                   DetailView,CreateView,
@@ -40,7 +42,7 @@ def register(request):
 @login_required
 def menuitem(request, id):
     item = MenuItems.objects.get(itemID=id)
-    try: 
+    try:
         orderedItem = Order.objects.get(id=request.user.id, ordered=False).items.get(itemID=id)
     except:
         orderedItem = None
@@ -70,7 +72,7 @@ def delete(request, id):
 """ Shopping Cart """
 @login_required
 def cart(request):
-    try: 
+    try:
         order = Order.objects.get(id=request.user.id, ordered=False)
     except:
         order = None
@@ -91,3 +93,15 @@ def add_to_cart(request, itemID, quantity):
 def remove_from_cart(request, itemID):
     OrderDetails.objects.filter(itemID=itemID).delete()
     return redirect('/menu/cart')
+
+def SearchResultsView(request):
+    if 'q' in request.GET and request.GET['q']:
+        # query = self.request.GET.get('q')
+        q = request.GET['q']
+        menu_list = MenuItems.objects.filter(
+        Q(itemKeyword__icontains=q) | Q(itemDescription__icontains=q) | Q(itemName__icontains=q)
+        )
+        return render(request, 'restaurant/search_results.html',{'menu_list':menu_list, 'a': q})
+
+    else:
+        return render(request, 'restaurant/search_results.html')

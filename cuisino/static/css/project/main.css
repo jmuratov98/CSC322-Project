@@ -27,12 +27,17 @@ h6 {
 .centerstage,
 .jumbotron {
     display: block;
-    margin-bottom: auto;
+    /* margin-bottom: auto; */
+    margin-left: auto;
+    margin-right: auto;
+}
+.menuhead{
+    display: block;
     margin-left: auto;
     margin-right: auto;
 }
 .centertxt {
-    margin-top: auto;
+    /* margin-top: auto; */
     width: 30%;
 }
 .center{
@@ -70,6 +75,7 @@ h6 {
 
 .centertxt,
 #content {
+    /* margin-top: 1% */
     text-align: center;
 }
 
