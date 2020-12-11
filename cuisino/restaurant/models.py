@@ -97,7 +97,7 @@ class Address(models.Model):
         verbose_name = 'Address'
         verbose_name_plural = 'Addresses'
 
-    addressID = models.IntegerField()
+    addressID = models.AutoField(primary_key=True)
     address1 = models.CharField(max_length=200)
     address2 = models.CharField(max_length=200)
     city = models.CharField(max_length=200)
@@ -114,7 +114,7 @@ class OrderDetails(models.Model):
         verbose_name_plural = 'Order Details'
 
     orderDetailID = models.AutoField(primary_key=True)
-    itemID = models.OneToOneField(MenuItems, null=True, on_delete=models.SET_NULL)
+    itemID = models.ForeignKey(MenuItems, null=True, on_delete=models.SET_NULL)
     itemQuantity = models.IntegerField()
     amount = models.DecimalField(max_digits=10, decimal_places=2)
 
@@ -143,7 +143,7 @@ class Order(models.Model):
     id = models.ForeignKey(Users, on_delete=models.CASCADE, null=True, related_name='customer')
     chef = models.ForeignKey(Users, on_delete=models.CASCADE, null=True, related_name='chef')
     reservationID = models.OneToOneField(Reservation, on_delete=models.CASCADE, null=True, blank=True)
-    address = models.ForeignKey(Address, on_delete=models.CASCADE, null=True, blank=True)
+    addressID = models.OneToOneField(Address, on_delete=models.CASCADE, null=True, blank=True)
     items = models.ManyToManyField(OrderDetails)
     ordered = models.BooleanField(default=False)
     orderType = models.SmallIntegerField(choices=ORDER_TYPES, default=UNKNOWN)
@@ -154,8 +154,3 @@ class Order(models.Model):
         for item in self.items.all():
             total += item.get_final_price()
         return total
-
-    def save(self, *args, **kwargs):
-        super().save()
-        print(args)
-        # Users.objects.get(id=args.chef)

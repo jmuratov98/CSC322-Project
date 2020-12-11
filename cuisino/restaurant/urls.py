@@ -10,7 +10,10 @@ urlpatterns=[
     path('register/', views.register, name="register"),
     path('<int:id>/', views.menuitem, name="menuitem"),
     path('<int:id>/delete/', views.delete, name="delete"),
-    path('complete-order', views.complete_order, name="complete-order"),
+    path('complete-order/<uuid:id>', views.complete_order, name="complete-order"),
+    path('complete-order/<uuid:id>/reservation/', views.complete_order_reservation, name="complete-order-reservation"),
+    path('complete-order/<uuid:id>/delivery/', views.complete_order_delivery, name="complete-order-delivery"),
+    path('complete-order/<uuid:id>/pickup/', views.complete_order_pickup, name="complete-order-pickup"),
     path('invoice', views.complete_order, name="invoice"),
 
     path('cart/', views.cart, name="cart"),

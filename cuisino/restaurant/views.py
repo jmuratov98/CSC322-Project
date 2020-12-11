@@ -107,48 +107,68 @@ def SearchResultsView(request):
         return render(request, 'restaurant/search_results.html')
 
 @login_required
-def complete_order(request):
-    order = Order(id=request.user, ordered=False)
-    purchased = False
-    order_form_submitted = False
+def complete_order(request, id):
+    order = Order.objects.get(orderID=id)
 
     if request.method == 'POST':
-        if not order_form_submitted:
-            print(request.POST )
-            form = OrderForm(request.POST, instance=order)
-            if form.is_valid():
-                order = form.save()
-                order.save()
-                order_form_submitted = True
+        form = OrderForm(data=request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            order_form_submitted = True
             order.refresh_from_db()
+        if order.orderType == order.RESERVATION:
+            return redirect(f"/menu/complete-order/{id}/reservation")
+        elif order.orderType == order.DELIVERY:
+            return redirect(f'/menu/complete-order/{id}/delivery')
         else:
-            if order.orderType == order.RESERVATION:
-                form = ReservationForm(request.POST)
-                if form.is_valid():
-                    reservation = form.save()
-                    reservation.save()
-                    order.reservationID = reservation
-                    order.save()
-            elif order.orderType == order.DELIVERY:
-                form = AddressForm(request.POST)
-                if form.is_valid():
-                    address = form.save()
-                    address.save()
-                    order.address = address
-                    order.save()
-            order.ordered = True
+            return redirect(f'/menu/complete-order/{id}/pickup')
+    else:
+        form = OrderForm()
+
+    return render(request, 'restaurant/complete-order.html', { 'form': form })
+
+@login_required
+def complete_order_reservation(request, id):
+    order = Order.objects.get(orderID=id)
+    
+    if request.method == 'POST':
+        form = ReservationForm(data=request.POST)
+        if form.is_valid():
+            reservation = form.save()
+            order.reservationID = reservation
             order.save()
     else:
-        if not order_form_submitted:
-            form = OrderForm()
-        else:
-            if order.orderType == order.PICK_UP or order.orderType == order.UNKNOWN:
-                return redirect('/menu/invoice')
-            form = ReservationForm() if order.orderType == order.RESERVATION else AddressForm()
+        form = ReservationForm()
 
-    options = {
-        'form': form,
-        "purchased": purchased
+    return render(request, 'restaurant/complete-order.html', { 'form': form })
 
-    }
-    return render(request, 'restaurant/complete-order.html', options)
+@login_required
+def complete_order_delivery(request, id):
+    order = Order.objects.get(orderID=id)
+    
+    if request.method == 'POST':
+        form = AddressForm(data=request.POST)
+        if form.is_valid():
+            address = form.save()
+            address.save()
+            order.address = address
+            order.save()
+    else:
+        form = AddressForm()
+
+    return render(request, 'restaurant/complete-order.html', { 'form': form })
+    
+@login_required
+def complete_order_pickup(request, id):
+    order = Order.objects.get(orderID=id)
+    
+    if request.method == 'POST':
+        form = AddressForm(data=request.POST)
+        if form.is_valid():
+            address = form.save()
+            order.address = address
+            order.save()
+    else:
+        form = AddressForm()
+
+    return render(request, 'users/base')

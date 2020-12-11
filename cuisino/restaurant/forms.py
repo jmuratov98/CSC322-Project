@@ -25,13 +25,11 @@ class ReservationForm(forms.ModelForm):
         fields = ('tableID', 'datetime', 'duration')
 
 class OrderForm(forms.ModelForm):
-    chef = forms.ChoiceField(label="Chefs", choices=())
+    chef = forms.ModelChoiceField(label="Chefs", queryset=None)
 
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)
-        choices = [(user, user.username) for user in Users.objects.filter(role=Users.CHEF)]
-        print(choices)
-        self.fields['chef'].choices = choices
+        self.fields['chef'].queryset = Users.objects.filter(role=Users.CHEF)
     
     class Meta:
         model = Order
