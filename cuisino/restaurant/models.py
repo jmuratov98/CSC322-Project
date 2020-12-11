@@ -36,7 +36,7 @@ class MenuItems(models.Model):
     itemName = models.CharField(max_length=200)
     itemDescription = models.TextField()
     itemPrice = models.DecimalField(max_digits=10, decimal_places=2)
-    itemReviews = models.TextField(null=True, blank=True)
+    itemReviews = models.IntegerField()
     itemImage = models.ImageField(default='default.jpg', upload_to="menu_images")
     itemKeyword = models.TextField(max_length=200,null=True, blank=True)
 

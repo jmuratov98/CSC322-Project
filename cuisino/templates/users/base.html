@@ -12,41 +12,32 @@
         {% endblock %}
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
             <div class="container">
                 <ul class="navbar-nav">
-                    <li class="nav-item"> <a class="navbar-brand active" href="{%url 'home'%}">HOME</a></li>
-                    <li class="nav-item"> <a class="nav-link active" href="{%url 'restaurant:menu'%}">Menu</a></li>
-                    <!-- <li class="nav-item"> <a class="nav-link" href="{%url 'restaurant:menu'%}">Menu</a></li> -->
+                    <li class="nav-item"> <a class="navbar-brand" href="{%url 'home'%}">HOME</a></li>
 
+                    <li class="nav-item"> <a class="nav-link" href="{%url 'restaurant:menu'%}">Menu</a></li>
 
 
                 </ul>
-
                 <ul class="navbar-nav justify-content-end">
                     {% if user.is_authenticated %}
-                        <li class="nav-item"> <a class="nav-link active" href="{%url 'users:index'%}">Account</a></li>
-                        <li class="nav-item"><a class="nav-link active" href="{% url 'users:user_logout' %}">Logout</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{%url 'users:index'%}">Account</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'users:user_logout' %}">Logout</a></li>
                         {% if user.role == user.CHEF or user.role == user.ADMIN %}
-                            <li class="nav-item"> <a class="nav-link active" href="{%url 'restaurant:register'%}">Menu Form</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="{%url 'restaurant:register'%}">Menu Form</a></li>
                         {% endif %}
                         {% if  user.role == user.ADMIN %}
-                            <li class="nav-item"> <a class="nav-link active" href="{%url 'admin:index'%}">Admin</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="{%url 'admin:index'%}">Admin</a></li>
                         {% elif user.role == user.CUSTOMER %}
-                            <li class="nav-item"><a class="nav-link text-dark active" href="{% url 'restaurant:cart' %}"><i class="fa fa-shopping-bag"></i></a></li>
+                            <li class="nav-item"><a class="nav-link text-dark" href="{% url 'restaurant:cart' %}"><i class="fa fa-shopping-bag"></i></a></li>
                         {% endif %}
                     {% else %}
-                        <li class="nav-item"><a class="nav-link active" href="{% url 'users:user_login' %}">Login</a></li>
-                        <li class="nav-item"> <a class="nav-link active" href="{%url 'users:register'%}">Register</a></li>
-                        <li class="nav-item"> <a class="nav-link active" href="{%url 'users:apply'%}">Careers</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'users:user_login' %}">Login</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{%url 'users:register'%}">Register</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{%url 'users:apply'%}">Careers</a></li>
                     {% endif %}
-
-
-                    <form class="d-flex" action="{% url 'restaurant:search_results' %}" method="get">
-                      <input name="q" type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
-                      <button class="btn btn-primary" type="submit">Search</button>
-                    </form>
-
                 </ul>
             </div>
         </nav>
