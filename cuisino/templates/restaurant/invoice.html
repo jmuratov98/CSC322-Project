@@ -1,1 +1,12 @@
-{% extends "users/base.html" %}
+{% extends "base/formbase.html" %}
+
+{% block setting %}
+    <div class="ml-5">
+        Your order was
+        {% if status %}
+        successful
+        {% else %}
+         not successful
+        {% endif %}
+    </div>
+{% endblock setting %}
