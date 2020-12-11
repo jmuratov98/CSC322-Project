@@ -23,7 +23,7 @@ def add_comment(request, slug):
 			comment = form.save(commit=False)
 			comment.post = post
 			comment.save()
-			return redirect('blog')
+			return redirect('blog:post_detail')
 	else:
 		form = CommentForm()
 		template = 'Blog/post/add_comment.html'
