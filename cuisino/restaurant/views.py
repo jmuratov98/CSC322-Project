@@ -4,7 +4,11 @@ from restaurant.forms import MenuForm, OrderForm, ReservationForm, AddressForm
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+<<<<<<< HEAD
 from django.http import HttpResponse
+=======
+from django.http import HttpResponse, JsonResponse
+>>>>>>> master
 
 from django.views.generic import (TemplateView,ListView,
                                   DetailView,CreateView,
@@ -12,6 +16,7 @@ from django.views.generic import (TemplateView,ListView,
 
 def index(request):
     menu = MenuItems.objects.all()
+
     options = {
         "menu_list": menu
     }
@@ -42,10 +47,13 @@ def register(request):
 @login_required
 def menuitem(request, id):
     item = MenuItems.objects.get(itemID=id)
+<<<<<<< HEAD
     try:
         orderedItem = Order.objects.get(id=request.user.id, ordered=False).items.get(itemID=id)
     except:
         orderedItem = None
+=======
+>>>>>>> master
 
     registered_menuitem = False
 
@@ -58,7 +66,7 @@ def menuitem(request, id):
     elif request.method == 'GET':
         menu_form = MenuForm(initial=item)
 
-    return render(request, 'restaurant/item.html', { 'form': menu_form, 'registered_menuitem': registered_menuitem, 'id': id, 'edit': True, 'orderedItem': orderedItem })
+    return render(request, 'restaurant/item.html', { 'form': menu_form, 'registered_menuitem': registered_menuitem, 'id': id, 'edit': True })
 
 @login_required
 def delete(request, id):
@@ -80,6 +88,7 @@ def cart(request):
 
 @login_required
 def add_to_cart(request, itemID, quantity):
+    print('hello')
     order = Order.objects.get_or_create(id=request.user, ordered=False)[0]
     menuitem = MenuItems.objects.get(itemID=itemID)
     if order.items.filter(itemID=itemID).exists():
@@ -96,7 +105,10 @@ def remove_from_cart(request, itemID):
 
 def SearchResultsView(request):
     if 'q' in request.GET and request.GET['q']:
+<<<<<<< HEAD
         # query = self.request.GET.get('q')
+=======
+>>>>>>> master
         q = request.GET['q']
         menu_list = MenuItems.objects.filter(
         Q(itemKeyword__icontains=q) | Q(itemDescription__icontains=q) | Q(itemName__icontains=q)
@@ -106,6 +118,7 @@ def SearchResultsView(request):
     else:
         return render(request, 'restaurant/search_results.html')
 
+<<<<<<< HEAD
 @login_required
 def complete_order(request, id):
     order = Order.objects.get(orderID=id)
@@ -172,3 +185,11 @@ def complete_order_pickup(request, id):
         form = AddressForm()
 
     return render(request, 'users/base')
+=======
+
+@login_required
+def cartitem(request, id):
+    item = MenuItems.objects.get(itemID=id)
+
+    return render(request, 'restaurant/cart_items.html', { 'item':item, 'id': id, 'edit': True })
+>>>>>>> master
