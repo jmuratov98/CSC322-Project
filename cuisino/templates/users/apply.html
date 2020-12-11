@@ -1,0 +1,37 @@
+{% extends 'base/formbase.html' %}
+{% load static %}
+{% load bootstrap3 %}
+
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/users/main.css' %}">
+{% endblock %}
+
+<title>Assiette de Poséidon ψ Career Registeration Page</title>
+
+{% block setting %}
+<div class="col-xl-9" style="padding-left: auto; padding-right: 0%; ">
+
+    <div class="card2 card border-0 px-4 py-4">
+        {% if registered %}
+          <h1>You have been Registered!</h1>
+        {% else %}
+        <div class="row mb-4 px-3">
+            <h2 class="mb-0 mr-4 mt-1">Career Registration</h2>
+        </div>
+        <div class="row mb-4 px-3">
+            <h4 class="mb-0 mr-4 mt-2">Sail with us</h4>
+        </div>
+        <div class="row px-3 mb-4">
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <div class="row mb-3 px-3"> <button type="submit" class="btn btn-blue text-center">Register</button> </div>
+        </form>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock setting %}
