@@ -101,6 +101,7 @@ def taboo_censor(request)
 
 
 def taboo_checker(request)
+    count = 0
     item = Users.objects.get(warnings)
     if __name__ == "__main__":
         text = #Once Blog Implemented, string of text that gets submitted will be scanned here
@@ -109,3 +110,16 @@ def taboo_checker(request)
             Users.warnings += 1
     
             
+def VIP_to_Reg()
+    item = Users.objects.get(warnings,VIP)
+    if item.VIP = True and item.warnings = 2
+        item.VIP = False
+        item.warnings = 0
+
+
+def Reg_to_Rip(id)
+    item = Users.objects.get(VIP,id,warnings)
+    if item.VIP = False and item.warnings = 3
+        Users.objects.filter(id=id).delete()
+        return redirect ('logout/')
+    
