@@ -1,10 +1,19 @@
-<!DOCTYPE>
-<html>
-	<head>
-		<title>{% block title %}{% endblock %}</title>
-	</head>
-	<body>
+{% extends "base/base.html" %}
+{% load static %}
+
+
+{% block body_block %}
+<title>Assiette de Poséidon ψ Menu</title>
+
+<div class="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-4 mx-auto" style="width: 80%; margin-left: auto; margin-right: auto;">
+    <div class="card card0 border-0"  style="background-color: rgba(255, 255, 255, 0.6); ">
+<div class="container" id="content">
+    <div class="menudiv">
+		<h1 id="menu_header">Discover Our Reviews Section</h1>
 		{% block content %}
 		{% endblock %}
-	</body>
-</html>
+	</div>
+	</div>
+	</div>
+	</div>
+{% endblock body_block %}

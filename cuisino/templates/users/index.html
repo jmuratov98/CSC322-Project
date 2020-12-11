@@ -1,9 +1,7 @@
 {% extends 'base/formbase.html' %}
 {% load static %}
 
-{% block stylesheets %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/users/main.css' %}">
-{% endblock %}
+
 
 <title>Assiette de Poséidon ψ Member Account Page</title>
 {% block setting %}
@@ -19,6 +17,8 @@
 
             {% else %}
                 <h2>Welcome to the site!</h2>
+                <h2>Your account is not active yet.</h2>
+                <h2>Please wait for a manager to authenticate your account.</h2>
             {% endif %}
         </div>
         <div class="row px-3 mb-4">
@@ -26,7 +26,7 @@
             <div class="line"></div>
         </div>
         {# for customer's perspective  #}
-        {% if user.role == user.CUSTOMER %}
+        {% if user.is_authenticated and user.role == user.CUSTOMER %}
 
         <div class="row px-3">
             <label class="mb-1">
@@ -42,12 +42,15 @@
                 {% endif %}
                 Membership
                 </h6>
-
+                <form class="d-flex" action="{% url 'users:AddDeposit' %}" method="get">
+                  <input name="d" type="text" placeholder="Add deposit amount" id="myInput" onkeyup="filterFunction()">
+                  <button class="btn btn-primary" type="submit">Deposit</button>
+                </form>
             </label>
         </div>
         {# gotta add for order in order_list here #}
 
-        {% else %}
+        {% elif user.is_authenticated %}
 
         <div class="row px-3">
             <label class="mb-1">
