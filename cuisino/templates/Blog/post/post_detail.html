@@ -1,0 +1,34 @@
+{% extends 'Blog/blogBase.html' %}
+
+{% block title %}{{post.user}}{% endblock %}
+
+{% block content %}
+
+		<h2>{{ post.title }} </h2>
+		{% if post.complain == False %}
+		<p>Like It</p>
+		{% else %}
+		<p>Don't Like It</p>
+		{% endif %}
+
+		<p>Written by {{ post.user }} on {{ post.published }}</p>
+		<p>{{ posts.Reviews }}</p>
+		<hr>
+		{{post.content|linebreaks}}
+		<hr>
+		<h1>Leave A Comment</h1>
+		<p>Total Number Of Comments {{ post.comments.count }}</p>
+
+		<a href="{% url 'blog:add_comment' slug=post.slug %}">Leave A Comment</a>
+
+		{% for comment in post.comments.all %}
+			<p>-----------comment-----------</p>
+			<p>user {{ comment.user }} created {{ comment.created }}</p>
+			<p>{{ comment.body }}</p>
+			<p>Stars {{ comment.Reviews }}</p>
+		{% empty %}
+			<p>There is no comments</p>
+		{% endfor %}
+			<p>-----------------------------</p>
+
+{% endblock %}

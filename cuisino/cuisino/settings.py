@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'cuisino',
     'users.apps.UsersConfig',
     'restaurant.apps.RestaurantConfig',
-    'bootstrap3'
+    'bootstrap3',
+    'Blog',
     # 'users',
 ]
 

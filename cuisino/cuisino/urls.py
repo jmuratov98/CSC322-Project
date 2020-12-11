@@ -5,7 +5,7 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 Examples:
 Function views
     1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+    2. Add a URL to urlpatterns:  path('', views.`home, name='home')
 Class-based views
     1. Add an import:  from other_app.views import Home
     2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
@@ -20,12 +20,15 @@ from django.conf.urls.static import static
 from django.conf.urls import url,include
 
 from home import views as home_views
+from Blog import views as Blog_views
 
 urlpatterns = [
     path('', home_views.index, name='home'),
     path('admin/', admin.site.urls),
     path('menu/', include('restaurant.urls')),
     path('users/',include('users.urls')),
+
+    url(r'^blog/', include(('Blog.urls', 'blog'), namespace='blog')),
 ]
 
 if settings.DEBUG:
