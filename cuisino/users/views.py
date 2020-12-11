@@ -107,8 +107,9 @@ def taboo_checker(request)
         text = #Once Blog Implemented, string of text that gets submitted will be scanned here
 
         if profanity.contains_profanity(text)= True
-            Users.warnings += 1
-    
+            item.warnings += 1
+            VIP_to_Reg()
+            Reg_to_Rip()
             
 def VIP_to_Reg()
     item = Users.objects.get(warnings,VIP)
