@@ -5,30 +5,30 @@
     {% for user in users %}
         {% if user.role != user.ADMIN %}
             {% if user.role == user.CUSTOMERS %}
-                <h1>Potential Customers</h1>
-                <li class="media">
+            <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Potential customers</div>
+                <li class="media ml-5">
                     <div class="media-body">
-                        <h3 class="mt-0">{{ user.username }}</h3>
-                        <h5>Deposit: {{ user.deposit }}</h5>
+                        <h5 class="mt-0">{{ user.username }}</h5>
+                        <p>Deposit: {{ user.deposit }}</p>
+                        <div class="btn-group" role="group">
+                            <button onclick="handleClick('auth', {{ user.id }})" class="btn btn-success">Authenticate User</button>
+                            <button onclick="handleClick('delete', {{ user.id }})" class="btn btn-danger">Delete User</button>
+                        </div>
                     </div>
                 </li>
-                <div class="btn-group" role="group">
-                    <button onclick="handleClick('auth', {{ user.id }})" class="btn btn-success">Authenticate User</button>
-                    <button onclick="handleClick('delete', {{ user.id }})" class="btn btn-danger">Delete User</button>
-                </div>
             {% endif %}
             {% if user.role == user.CHEF or user.role == user.DELIVERY %}
-                <h1>Potential Employees</h1>
-                <li class="media">
+            <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Potential employees</div>
+                <li class="media ml-5">
                     <div class="media-body">
-                        <h3 class="mt-0">{{ user.username }}</h3>
-                        <h5>Position: {% if user.role == 2 %} Chef {% elif user.role == 3%} Delivery {% endif %}</h5>
+                        <h5 class="mt-0">{{ user.username }}</h5>
+                        <p>Position: {% if user.role == 2 %} Chef {% elif user.role == 3%} Delivery {% endif %}</p>
+                        <div class="btn-group" role="group">
+                            <button onclick="handleClick('auth', {{ user.id }})" class="btn btn-success">Hire</button>
+                            <button onclick="handleClick('delete', {{ user.id }})" class="btn btn-danger">Not Hire</button>
+                        </div>
                     </div>
                 </li>
-                <div class="btn-group" role="group">
-                    <button onclick="handleClick('auth', {{ user.id }})" class="btn btn-success">Hire</button>
-                    <button onclick="handleClick('delete', {{ user.id }})" class="btn btn-danger">Not Hire</button>
-                </div>
             {% endif %}
         {% endif %}
     {% endfor %}
