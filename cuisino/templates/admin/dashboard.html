@@ -4,8 +4,8 @@
 <ul class="list-unstyled ml-5">
     {% for user in users %}
         {% if user.role != user.ADMIN %}
-            {% if user.role == user.CUSTOMERS %}
-            <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Potential customers</div>
+            {% if user.role == user.CUSTOMER %}
+                <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Potential customers</div>
                 <li class="media ml-5">
                     <div class="media-body">
                         <h5 class="mt-0">{{ user.username }}</h5>
@@ -18,7 +18,7 @@
                 </li>
             {% endif %}
             {% if user.role == user.CHEF or user.role == user.DELIVERY %}
-            <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Potential employees</div>
+                <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Potential employees</div>
                 <li class="media ml-5">
                     <div class="media-body">
                         <h5 class="mt-0">{{ user.username }}</h5>
