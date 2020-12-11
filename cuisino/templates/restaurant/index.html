@@ -1,4 +1,4 @@
-{% extends "users/base.html" %}
+{% extends "base/base.html" %}
 
 {% load static %}
 
@@ -25,7 +25,7 @@
 
             {% for menuitem in menu_list %}
                 <div class="card mb-1" style="width: auto; ">
-                    <a href="/menu/{{ menuitem.itemID }}" class="row no-gutters clickable-item">
+                    <div class="row no-gutters clickable-item">
                         <div class="col-md-8">
                             <h5 class="card-title text-dark" style="padding-top:20px;" >
                                 <strong>{{ menuitem.itemName }}</strong><hr>
@@ -36,8 +36,12 @@
                         <div class="col-md-4">
                             <img class="card-img" src="{{ menuitem.itemImage.url }}" alt="{{ menuitem.itemName }}">
                         </div>
-                    </a>
+
+                    </div>
                     {% if user.is_authenticated %}
+                        {% if user.role == user.CUSTOMER %}
+                            <button class="btn btn-primary" type="button" onclick="location.href='/menu/{{ menuitem.itemID }}'" >Add to cart</button>
+                        {% endif %}
                         {% if user.role == user.CHEF or user.role == user.ADMIN %}
                             <div class="btn-group" role="group">
                                 <a href="{{menuitem.itemID}}" class="btn btn-success">Edit</a>
@@ -55,6 +59,15 @@
 </div>
 </div>
 </div>
+<script>
+    const BUTTON = document.querySelector(".add-to-cart-button");
+    const INPUT = document.querySelector("#quantity");
+
+    BUTTON.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = `/menu/cart/add/{{id}}/${INPUT.value}`;
+    });
+</script>
 {% endblock %}
 
 {% block search_block %} {% endblock %}
