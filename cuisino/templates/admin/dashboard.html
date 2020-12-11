@@ -1,0 +1,44 @@
+{% extends "base/formbase.html" %}
+
+{% block setting %}
+<ul class="list-unstyled ml-5">
+    {% for user in users %}
+        {% if user.role != user.ADMIN %}
+            {% if user.role == user.CUSTOMERS %}
+            <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Potential customers</div>
+                <li class="media ml-5">
+                    <div class="media-body">
+                        <h5 class="mt-0">{{ user.username }}</h5>
+                        <p>Deposit: {{ user.deposit }}</p>
+                        <div class="btn-group" role="group">
+                            <button onclick="handleClick('auth', {{ user.id }})" class="btn btn-success">Authenticate User</button>
+                            <button onclick="handleClick('delete', {{ user.id }})" class="btn btn-danger">Delete User</button>
+                        </div>
+                    </div>
+                </li>
+            {% endif %}
+            {% if user.role == user.CHEF or user.role == user.DELIVERY %}
+            <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Potential employees</div>
+                <li class="media ml-5">
+                    <div class="media-body">
+                        <h5 class="mt-0">{{ user.username }}</h5>
+                        <p>Position: {% if user.role == 2 %} Chef {% elif user.role == 3%} Delivery {% endif %}</p>
+                        <div class="btn-group" role="group">
+                            <button onclick="handleClick('auth', {{ user.id }})" class="btn btn-success">Hire</button>
+                            <button onclick="handleClick('delete', {{ user.id }})" class="btn btn-danger">Not Hire</button>
+                        </div>
+                    </div>
+                </li>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+</ul>
+
+<script>
+    function handleClick(auth_or_delete, id) {
+        if (auth_or_delete == "auth") window.location.href = `/dashboard/auth/${id}`;
+        if (auth_or_delete == "delete") window.location.href = `/dashboard/delete/${id}`;
+    }
+</script>
+
+{% endblock setting %}
