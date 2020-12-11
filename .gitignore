@@ -1,3 +1,7 @@
 cuisino/db.sqlite3
 
 cuisino/**/__pycache__/
+
+vnv/*
+
+cuisino/*/migrations/*

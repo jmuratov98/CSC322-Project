@@ -1,0 +1,21 @@
+{% extends 'Blog/blogBase.html' %}
+
+{% block title %}List of blog post{% endblock %}
+
+{% block content %}
+	{% for posts in post %}
+
+		<h2><a href="{{posts.get_absolute_url}}">{{ posts.title }}</a> </h2>
+		{% if posts.complain == False %}
+		<p>Compliment {{ posts.complain_compliment_user }} </p>
+		{% else %}
+		<p>Complain {{ posts.complain_compliment_user }} </p>
+		{% endif %}
+
+		<p>Written by {{ posts.user }} on {{ posts.published }}</p>
+		<p>{{ posts.Reviews }}</p>
+		<hr>
+		{{posts.content|truncatewords:40|linebreaks}}
+		
+	{% endfor %}
+{% endblock %}
