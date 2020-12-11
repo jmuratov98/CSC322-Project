@@ -18,7 +18,7 @@
 		<h1>Leave A Comment</h1>
 		<p>Total Number Of Comments {{ post.comments.count }}</p>
 
-		<a href="{% url 'blog:add_comment' slug=post.slug %}">Leave A Comment</a>
+		<a href="{% url 'Blog:add_comment' slug=post.slug %}">Leave A Comment</a>
 
 		{% for comment in post.comments.all %}
 			<p>comment</p>

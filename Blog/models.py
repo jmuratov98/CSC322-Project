@@ -22,7 +22,7 @@ class Post(models.Model):
     complain = models.BooleanField(default=False)
 
     def get_absolute_url(self):
-        return reverse('blog:post_detail', args=[self.slug])
+        return reverse('blog', args=[self.slug])
 
     def __str__(self):
         return self.title

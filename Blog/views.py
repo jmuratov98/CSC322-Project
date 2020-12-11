@@ -23,9 +23,9 @@ def add_comment(request, slug):
 			comment = form.save(commit=False)
 			comment.post = post
 			comment.save()
-			return redirect('blog:post_detail')
+			return redirect('blog')
 	else:
 		form = CommentForm()
-	template = 'Blog/post/add_comment.html'
-	context = {'form': form}
+		template = 'Blog/post/add_comment.html'
+		context = {'form': form}
 	return render(request, template, context)
