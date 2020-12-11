@@ -21,12 +21,17 @@ from django.conf.urls import url,include
 
 from home import views as home_views
 from Blog import views as Blog_views
+from users.views import dashboard, dashboard_auth, dashboard_delete
 
 urlpatterns = [
     path('', home_views.index, name='home'),
     path('admin/', admin.site.urls),
     path('menu/', include('restaurant.urls')),
     path('users/',include('users.urls')),
+
+    path('dashboard/', dashboard, name="dashboard"),
+    path('dashboard/auth/<int:id>', dashboard_auth, name="dashboard-auth"),
+    path('dashboard/delete/<int:id>', dashboard_delete, name="dashboard-delete"),
 
     url(r'^blog/', include(('Blog.urls', 'blog'), namespace='blog')),
 ]

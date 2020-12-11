@@ -1,0 +1,28 @@
+{% extends "base/formbase.html" %}
+
+{% block setting %}
+<ul class="list-unstyled ml-5">
+    {% for user in users %}
+        {% if user.role != user.ADMIN %}
+        <li class="media">
+            <div class="media-body">
+                <h3 class="mt-0">{{ user.username }}</h3>
+                <h5>Deposit: {{ user.deposit }}</h5>
+              </div>
+            </li>
+            <div class="btn-group" role="group">
+                <button onclick="handleClick('auth', {{ user.id }})" class="btn btn-success">Authenticate User</button>
+                <button onclick="handleClick('delete', {{ user.id }})" class="btn btn-danger">Delete User</button>
+            </div>
+        {% endif %}
+    {% endfor %}
+    </ul>
+
+<script>
+    function handleClick(auth_or_delete, id) {
+        if(auth_or_delete == "auth") window.location.href = `/dashboard/auth/${id}`;
+        if(auth_or_delete == "delete") window.location.href = `/dashboard/delete/${id}`;
+    }
+</script>
+
+{% endblock setting %}

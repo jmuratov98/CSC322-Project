@@ -76,8 +76,11 @@ def user_login(request):
 
         if user:
             if user.is_active:
-                login(request,user)
-                return redirect('../')
+                if user.is_auth_by_manager or user.role == user.ADMIN:
+                    login(request,user)
+                    return redirect('../')
+                else:
+                    return redirect('/') 
             else:
                 return HttpResponse("Your account is not active.")
         else:
@@ -88,6 +91,23 @@ def user_login(request):
     else:
         return render(request, 'users/login.html', {})
 
+@login_required
+def dashboard(request):
+    unathenticated_users = Users.objects.filter(is_auth_by_manager=False)
+    print(unathenticated_users)
+    return render(request, 'admin/dashboard.html', { 'users': unathenticated_users })
+
+@login_required
+def dashboard_auth(request, id):
+    user = Users.objects.get(id=id)
+    user.is_auth_by_manager = True
+    user.save()
+    return redirect("/dashboard/")
+
+@login_required
+def dashboard_delete(request, id):
+    Users.objects.filter(id=id).delete()
+    return redirect("/dashboard/")
 
 def taboo_censor(request):
     if __name__ == "__main__":

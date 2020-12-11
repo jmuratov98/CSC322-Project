@@ -23,6 +23,7 @@ class Users(AbstractUser):
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, default=CUSTOMER)
     messages = models.TextField(null=True, blank=True)
     demoted = models.BooleanField(default=False)
+    is_auth_by_manager = models.BooleanField(default=False)
 
     # customer
     warnings = models.IntegerField(blank=True, null=True)
