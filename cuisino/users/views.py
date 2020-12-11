@@ -35,7 +35,6 @@ def register(request):
         if form.is_valid():
             user = form.save()
             user.set_password(user.password)
-            #user.profile.birth_date = form.cleaned_data.get('birth_date')
             user.save()
             registered = True
 
@@ -80,7 +79,7 @@ def user_login(request):
                     login(request,user)
                     return redirect('../')
                 else:
-                    return redirect('/') 
+                    return render(request, 'users/index.html', {})
             else:
                 return HttpResponse("Your account is not active.")
         else:
@@ -116,7 +115,7 @@ def taboo_censor(request):
         # text = #Once Blog Implemented, string of text that gets submitted will be scanned here
         text = ''
 
-        text = profanity.censor(text)       
+        text = profanity.censor(text)
 
 
 
@@ -132,7 +131,7 @@ def taboo_checker(request):
             item.warnings += 1
             VIP_to_Reg()
             Reg_to_Rip()
-            
+
 def VIP_to_Reg():
     item = Users.objects.get(warnings,VIP)
     if item.VIP == True and item.warnings == 2:
@@ -145,4 +144,14 @@ def Reg_to_Rip(id):
     if item.VIP == False and item.warnings == 3:
         Users.objects.filter(id=id).delete()
         return redirect ('logout/')
-    
+
+
+def AddDeposit(request):
+    if 'd' in request.GET and request.GET['d']:
+        d = request.GET['d']
+        depo = request.user.deposit
+        d = float(depo) + float(d)
+        userdepo = Users.objects.update(deposit=d)
+
+
+        return redirect( '../')

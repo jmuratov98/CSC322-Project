@@ -44,13 +44,10 @@ def register(request):
 @login_required
 def menuitem(request, id):
     item = MenuItems.objects.get(itemID=id)
-
     try:
         orderedItem = Order.objects.get(id=request.user.id, ordered=False).items.get(itemID=id)
     except:
         orderedItem = None
-
-
 
     registered_menuitem = False
 
@@ -102,9 +99,6 @@ def remove_from_cart(request, itemID):
 
 def SearchResultsView(request):
     if 'q' in request.GET and request.GET['q']:
-
-        # query = self.request.GET.get('q')
-
         q = request.GET['q']
         menu_list = MenuItems.objects.filter(
         Q(itemKeyword__icontains=q) | Q(itemDescription__icontains=q) | Q(itemName__icontains=q)
@@ -113,6 +107,9 @@ def SearchResultsView(request):
 
     else:
         return render(request, 'restaurant/search_results.html')
+
+
+
 
 @login_required
 def complete_order(request, id):
@@ -138,7 +135,7 @@ def complete_order(request, id):
 @login_required
 def complete_order_reservation(request, id):
     order = Order.objects.get(orderID=id)
-    
+
     if request.method == 'POST':
         form = ReservationForm(data=request.POST)
         if form.is_valid():
@@ -153,7 +150,7 @@ def complete_order_reservation(request, id):
 @login_required
 def complete_order_delivery(request, id):
     order = Order.objects.get(orderID=id)
-    
+
     if request.method == 'POST':
         form = AddressForm(data=request.POST)
         if form.is_valid():
@@ -165,11 +162,11 @@ def complete_order_delivery(request, id):
         form = AddressForm()
 
     return render(request, 'restaurant/complete-order.html', { 'form': form })
-    
+
 @login_required
 def complete_order_pickup(request, id):
     order = Order.objects.get(orderID=id)
-    
+
     if request.method == 'POST':
         form = AddressForm(data=request.POST)
         if form.is_valid():
@@ -187,4 +184,3 @@ def cartitem(request, id):
     item = MenuItems.objects.get(itemID=id)
 
     return render(request, 'restaurant/cart_items.html', { 'item':item, 'id': id, 'edit': True })
-
