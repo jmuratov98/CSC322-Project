@@ -28,7 +28,8 @@ urlpatterns = [
     path('menu/', include('restaurant.urls')),
     path('users/',include('users.urls')),
 
-    path('blog/', Blog_views.list_of_post),
+    url(r'^blog/', include(('Blog.urls', 'blog'), namespace='blog')),
+    #path('blog/', Blog_views.list_of_post),
     #path('blog/<slug:slug>/', Blog_views.post_detail, name="post_detail"),
     
 ]

@@ -3,17 +3,18 @@
 {% block title %}List of blog post{% endblock %}
 
 {% block content %}
-	{% for post in post %}
+	{% for posts in post %}
 
-		<h2>{{ post.title }} </h2>
-		{% if post.complain == False %}
-		<p>Like It</p>
+		<h2><a href="{{posts.get_absolute_url}}">{{ posts.title }}</a> </h2>
+		{% if posts.complain == False %}
+		<p>Compliment {{ posts.complain_compliment_user }} </p>
 		{% else %}
-		<p>Don't Like It</p>
+		<p>Complain {{ posts.complain_compliment_user }} </p>
 		{% endif %}
 
-		<p>Written by {{ post.author }} on {{ post.published }}</p>
+		<p>Written by {{ posts.user }} on {{ posts.published }}</p>
 		<hr>
-		{{post.content|truncatewords:40|linebreaks}}
+		{{posts.content|truncatewords:40|linebreaks}}
+		
 	{% endfor %}
 {% endblock %}

@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.conf import settings
 
+from django.urls import reverse
+
 class Post(models.Model):
     STATUS_CHOICES = (
         ('draft','Draft'),
@@ -19,11 +21,14 @@ class Post(models.Model):
     status = models.CharField(max_length=9, choices=STATUS_CHOICES, default=0)
     complain = models.BooleanField(default=False)
 
+    def get_absolute_url(self):
+        return reverse('blog:post_detail', args=[self.slug])
+
     def __str__(self):
         return self.title
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE ,related_name='Comment')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE ,related_name='comments')
     user = models.CharField(max_length=250)
     email = models.EmailField()
     body = models.TextField()
