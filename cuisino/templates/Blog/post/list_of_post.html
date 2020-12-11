@@ -13,6 +13,7 @@
 		{% endif %}
 
 		<p>Written by {{ posts.user }} on {{ posts.published }}</p>
+		<p>{{ posts.Reviews }}</p>
 		<hr>
 		{{posts.content|truncatewords:40|linebreaks}}
 		

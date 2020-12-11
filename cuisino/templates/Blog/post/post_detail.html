@@ -12,6 +12,7 @@
 		{% endif %}
 
 		<p>Written by {{ post.user }} on {{ post.published }}</p>
+		<p>{{ posts.Reviews }}</p>
 		<hr>
 		{{post.content|linebreaks}}
 		<hr>
@@ -21,11 +22,13 @@
 		<a href="{% url 'blog:add_comment' slug=post.slug %}">Leave A Comment</a>
 
 		{% for comment in post.comments.all %}
-			<p>comment</p>
+			<p>-----------comment-----------</p>
 			<p>user {{ comment.user }} created {{ comment.created }}</p>
 			<p>{{ comment.body }}</p>
+			<p>Stars {{ comment.Reviews }}</p>
 		{% empty %}
 			<p>There is no comments</p>
 		{% endfor %}
+			<p>-----------------------------</p>
 
 {% endblock %}
