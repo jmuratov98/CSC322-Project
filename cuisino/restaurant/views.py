@@ -4,6 +4,7 @@ from restaurant.forms import MenuForm, OrderForm, ReservationForm, AddressForm
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from users.models import Users
 
 from django.http import HttpResponse
 
@@ -138,6 +139,7 @@ def complete_order(request, id):
 @login_required
 def complete_order_reservation(request, id):
     order = Order.objects.get(orderID=id)
+    user = Users.objects.get(id=request.user.id)
     
     if request.method == 'POST':
         form = ReservationForm(data=request.POST)
@@ -145,6 +147,13 @@ def complete_order_reservation(request, id):
             reservation = form.save()
             order.reservationID = reservation
             order.save()
+            if user.deposit >= order.get_total():
+                user.deposit = user.deposit - order.get_total()
+                user.save()
+                order.ordered = True
+                order.save()
+                order.refresh_from_db()
+            return redirect(f'/menu/invoice/{order.ordered}')
     else:
         form = ReservationForm()
 
@@ -153,14 +162,22 @@ def complete_order_reservation(request, id):
 @login_required
 def complete_order_delivery(request, id):
     order = Order.objects.get(orderID=id)
+    user = Users.objects.get(id=request.user.id)
     
     if request.method == 'POST':
         form = AddressForm(data=request.POST)
         if form.is_valid():
             address = form.save()
             address.save()
-            order.address = address
+            order.addressID = address
             order.save()
+            if user.deposit >= order.get_total():
+                user.deposit = user.deposit - order.get_total()
+                user.save()
+                order.ordered = True
+                order.save()
+                order.refresh_from_db()
+            return redirect(f'/menu/invoice/{order.ordered}')
     else:
         form = AddressForm()
 
@@ -169,17 +186,14 @@ def complete_order_delivery(request, id):
 @login_required
 def complete_order_pickup(request, id):
     order = Order.objects.get(orderID=id)
-    
-    if request.method == 'POST':
-        form = AddressForm(data=request.POST)
-        if form.is_valid():
-            address = form.save()
-            order.address = address
-            order.save()
-    else:
-        form = AddressForm()
-
-    return render(request, 'users/base')
+    user = Users.objects.get(id=request.user.id)
+    if user.deposit >= order.get_total():
+        user.deposit = user.deposit - order.get_total()
+        user.save()
+        order.ordered = True
+        order.save()
+        order.refresh_from_db()
+    return redirect(f'/menu/invoice/{order.ordered}')
 
 
 @login_required
@@ -188,3 +202,6 @@ def cartitem(request, id):
 
     return render(request, 'restaurant/cart_items.html', { 'item':item, 'id': id, 'edit': True })
 
+@login_required
+def invoice(request, status):
+    return render(request, 'restaurant/invoice.html', { 'status': status })
