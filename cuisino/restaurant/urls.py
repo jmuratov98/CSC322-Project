@@ -14,7 +14,7 @@ urlpatterns=[
     path('complete-order/<uuid:id>/reservation/', views.complete_order_reservation, name="complete-order-reservation"),
     path('complete-order/<uuid:id>/delivery/', views.complete_order_delivery, name="complete-order-delivery"),
     path('complete-order/<uuid:id>/pickup/', views.complete_order_pickup, name="complete-order-pickup"),
-    path('invoice', views.complete_order, name="invoice"),
+    path('invoice/<str:status>', views.invoice, name="invoice"),
 
     path('cart/', views.cart, name="cart"),
     path('cart/add/<int:itemID>/<int:quantity>', views.add_to_cart, name="add-to-cart"),
