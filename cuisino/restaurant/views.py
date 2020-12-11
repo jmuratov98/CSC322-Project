@@ -1,10 +1,14 @@
 from django.shortcuts import render, redirect
 from restaurant.models import MenuItems, Order, OrderDetails
-from restaurant.forms import MenuForm
+from restaurant.forms import MenuForm, OrderForm, ReservationForm, AddressForm
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+<<<<<<< HEAD
+from django.http import HttpResponse
+=======
 from django.http import HttpResponse, JsonResponse
+>>>>>>> master
 
 from django.views.generic import (TemplateView,ListView,
                                   DetailView,CreateView,
@@ -43,6 +47,13 @@ def register(request):
 @login_required
 def menuitem(request, id):
     item = MenuItems.objects.get(itemID=id)
+<<<<<<< HEAD
+    try:
+        orderedItem = Order.objects.get(id=request.user.id, ordered=False).items.get(itemID=id)
+    except:
+        orderedItem = None
+=======
+>>>>>>> master
 
     registered_menuitem = False
 
@@ -94,6 +105,10 @@ def remove_from_cart(request, itemID):
 
 def SearchResultsView(request):
     if 'q' in request.GET and request.GET['q']:
+<<<<<<< HEAD
+        # query = self.request.GET.get('q')
+=======
+>>>>>>> master
         q = request.GET['q']
         menu_list = MenuItems.objects.filter(
         Q(itemKeyword__icontains=q) | Q(itemDescription__icontains=q) | Q(itemName__icontains=q)
@@ -103,9 +118,78 @@ def SearchResultsView(request):
     else:
         return render(request, 'restaurant/search_results.html')
 
+<<<<<<< HEAD
+@login_required
+def complete_order(request, id):
+    order = Order.objects.get(orderID=id)
+
+    if request.method == 'POST':
+        form = OrderForm(data=request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            order_form_submitted = True
+            order.refresh_from_db()
+        if order.orderType == order.RESERVATION:
+            return redirect(f"/menu/complete-order/{id}/reservation")
+        elif order.orderType == order.DELIVERY:
+            return redirect(f'/menu/complete-order/{id}/delivery')
+        else:
+            return redirect(f'/menu/complete-order/{id}/pickup')
+    else:
+        form = OrderForm()
+
+    return render(request, 'restaurant/complete-order.html', { 'form': form })
+
+@login_required
+def complete_order_reservation(request, id):
+    order = Order.objects.get(orderID=id)
+    
+    if request.method == 'POST':
+        form = ReservationForm(data=request.POST)
+        if form.is_valid():
+            reservation = form.save()
+            order.reservationID = reservation
+            order.save()
+    else:
+        form = ReservationForm()
+
+    return render(request, 'restaurant/complete-order.html', { 'form': form })
+
+@login_required
+def complete_order_delivery(request, id):
+    order = Order.objects.get(orderID=id)
+    
+    if request.method == 'POST':
+        form = AddressForm(data=request.POST)
+        if form.is_valid():
+            address = form.save()
+            address.save()
+            order.address = address
+            order.save()
+    else:
+        form = AddressForm()
+
+    return render(request, 'restaurant/complete-order.html', { 'form': form })
+    
+@login_required
+def complete_order_pickup(request, id):
+    order = Order.objects.get(orderID=id)
+    
+    if request.method == 'POST':
+        form = AddressForm(data=request.POST)
+        if form.is_valid():
+            address = form.save()
+            order.address = address
+            order.save()
+    else:
+        form = AddressForm()
+
+    return render(request, 'users/base')
+=======
 
 @login_required
 def cartitem(request, id):
     item = MenuItems.objects.get(itemID=id)
 
     return render(request, 'restaurant/cart_items.html', { 'item':item, 'id': id, 'edit': True })
+>>>>>>> master
